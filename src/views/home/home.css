@@ -1,0 +1,48 @@
+:root {
+  --home-temp-color: #fcefee;
+}
+
+.home {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 0.2fr 2fr 1fr;
+  grid-template-areas:
+    "logo logo logo logo"
+    "trail trail form form"
+    "slogan slogan slogan slogan";
+  gap: 0.2vw;
+}
+
+.home__logo {
+  background-color: var(--home-temp-color);
+  grid-area: logo;
+}
+
+.home__trail {
+  background-color: var(--home-temp-color);
+  grid-area: trail;
+}
+
+.home__form {
+  background-color: var(--home-temp-color);
+  grid-area: form;
+}
+
+.home__slogan {
+  background-color: var(--home-temp-color);
+  grid-area: slogan;
+}
+
+@media (max-width: 550px) {
+  .home {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.4fr 1.5fr 2fr 1.2fr;
+    grid-template-areas:
+      "logo"
+      "trail"
+      "form"
+      "slogan";
+  }
+}
