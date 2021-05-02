@@ -21,8 +21,10 @@
 }
 
 .home__trail {
+  display: grid;
   background-color: var(--home-temp-color);
   grid-area: trail;
+  place-content: center;
 }
 
 .home__form {
