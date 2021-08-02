@@ -1,5 +1,5 @@
 import React from "react";
-import Trail from "../../components/trail/Trail";
+import Trail from "./components/trail/Trail";
 import { capitalizeFirst } from "../../methods/capitalize";
 import "./home.css";
 

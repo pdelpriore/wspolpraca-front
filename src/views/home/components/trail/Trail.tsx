@@ -10,8 +10,8 @@ const Trail: React.FC<TrailProps> = ({ children }) => {
   const [isMount, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
-    setMounted((mount) => !mount);
-    return () => setMounted((mount) => !mount);
+    setMounted(true);
+    return () => setMounted(false);
   }, []);
 
   const items = React.Children.toArray(children);
