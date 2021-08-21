@@ -1,6 +1,6 @@
 import React from "react";
 import Trail from "./components/trail/Trail";
-import Signup from "../../components/signup/Signup";
+import Signup from "./components/signup/Signup";
 import { capitalizeFirst } from "../../shared/capitalize";
 import "./home.css";
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { signupInput } from "../../components/form/signupForm/SignupForm";
+import { signupInput } from "../../views/home/components/form/signupForm/SignupForm";
 
 type input = signupInput;
 
