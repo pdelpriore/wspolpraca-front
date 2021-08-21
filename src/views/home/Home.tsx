@@ -1,5 +1,6 @@
 import React from "react";
 import Trail from "./components/trail/Trail";
+import Signup from "../../components/signup/Signup";
 import { capitalizeFirst } from "../../shared/capitalize";
 import "./home.css";
 
@@ -15,7 +16,9 @@ const Home: React.FC = () => {
           <span>{capitalizeFirst("sit")}</span>
         </Trail>
       </div>
-      <div className="home__form">forms</div>
+      <div className="home__form">
+        <Signup />
+      </div>
       <div className="home__slogan">slogan</div>
     </div>
   );

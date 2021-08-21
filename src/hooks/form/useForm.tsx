@@ -1,11 +1,10 @@
 import { useState } from "react";
+import { signupInput } from "../../components/form/signupForm/SignupForm";
 
-const useForm = () => {
-  type input = {
-    [key: string]: string;
-  };
+type input = signupInput;
 
-  const [input, setInput] = useState<input>({});
+const useForm = (initInput: input) => {
+  const [input, setInput] = useState<input>(initInput);
 
   const handleOnInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.persist();
