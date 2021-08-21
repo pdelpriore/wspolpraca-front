@@ -4,13 +4,13 @@ import useForm from "../../hooks/form/useForm";
 import "./signup.css";
 
 const Signup: React.FC = () => {
-  const initInput = {
+  const signupInitInput = {
     username: "",
     useremail: "",
     userpassword: "",
     usertype: "",
   };
-  const [input, changeSignupInput] = useForm(initInput);
+  const [input, changeSignupInput] = useForm(signupInitInput);
 
   const handleSubmitSignupForm = (e: React.FormEvent) => {
     e.preventDefault();
