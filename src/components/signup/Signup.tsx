@@ -17,16 +17,12 @@ const Signup: React.FC = () => {
     console.log("submitted");
   };
 
-  console.log(input);
-
   return (
     <SignupForm
       input={input}
       onChangeInput={changeSignupInput}
       onSubmitForm={handleSubmitSignupForm}
-      isSubmitFormDisabled={
-        Object.values(input).length !== Object.values(initInput).length
-      }
+      isSubmitFormDisabled={Object.values(input).includes("")}
     />
   );
 };
