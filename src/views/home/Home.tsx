@@ -1,6 +1,6 @@
 import React from "react";
 import Trail from "./components/trail/Trail";
-import { capitalizeFirst } from "../../methods/capitalize";
+import { capitalizeFirst } from "../../shared/capitalize";
 import "./home.css";
 
 const Home: React.FC = () => {
