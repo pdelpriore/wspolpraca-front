@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
 import { signinInput } from "./type/signinInputType";
+import { SigningContext } from "../../../../../context/signing/SigningContext";
 import "./signinForm.css";
 
 type onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -19,6 +20,14 @@ const SigninForm: React.FC<SigninFormProps> = ({
   onSubmitForm,
   isSubmitFormDisabled,
 }) => {
+  const { showSignupForm } = useContext(SigningContext);
+  const handleShowSignupFormOnClick = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    showSignupForm(true);
+  };
+
   return (
     <Form className="form" onSubmit={onSubmitForm}>
       <Form.Group controlId="signinFormUserEmail">
@@ -43,6 +52,9 @@ const SigninForm: React.FC<SigninFormProps> = ({
           value={input.userpassword || ""}
         />
       </Form.Group>
+      <span className="form__span" onClick={handleShowSignupFormOnClick}>
+        zarejestruj się
+      </span>
       <Button className="form_btn" disabled={isSubmitFormDisabled}>
         Zaloguj się
       </Button>

@@ -1,10 +1,14 @@
 import React from "react";
+import useVisibility from "../../hooks/visibility/useVisibility";
+import { SigningContext } from "../../context/signing/SigningContext";
 import Trail from "./components/trail/Trail";
 import Signup from "./components/signup/Signup";
 import Signin from "./components/signin/Signin";
 import "./home.css";
 
 const Home: React.FC = () => {
+  const [isSignupVisible, setSignupVisible] = useVisibility(false);
+
   return (
     <div className="home">
       <div className="home__logo">logo</div>
@@ -17,8 +21,23 @@ const Home: React.FC = () => {
         </Trail>
       </div>
       <div className="home__form">
-        {/* <Signup /> */}
-        <Signin />
+        {isSignupVisible ? (
+          <SigningContext.Provider
+            value={{
+              showSignupForm: setSignupVisible,
+            }}
+          >
+            <Signup />
+          </SigningContext.Provider>
+        ) : (
+          <SigningContext.Provider
+            value={{
+              showSignupForm: setSignupVisible,
+            }}
+          >
+            <Signin />
+          </SigningContext.Provider>
+        )}
       </div>
       <div className="home__slogan">slogan</div>
     </div>

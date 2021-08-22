@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { SigningContext } from "../../../../../context/signing/SigningContext";
 import { Form, Button, Spinner } from "react-bootstrap";
 import { signupInput } from "./type/signupInputType";
 import "./signupForm.css";
@@ -22,6 +23,14 @@ const SignupForm: React.FC<SignupFormProps> = ({
   const formOptions = {
     optionValues: ["youtuber", "brand"],
     optionLabels: ["Youtuber", "Firma"],
+  };
+
+  const { showSignupForm } = useContext(SigningContext);
+  const handleHideSignupFormOnClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    showSignupForm(false);
   };
 
   return (
@@ -88,6 +97,13 @@ const SignupForm: React.FC<SignupFormProps> = ({
       </Form.Group>
       <Button className="form_btn" disabled={isSubmitFormDisabled}>
         Zarejestruj się
+      </Button>
+      <Button
+        className="form_btn"
+        variant="light"
+        onClick={handleHideSignupFormOnClick}
+      >
+        Anuluj
       </Button>
     </Form>
   );

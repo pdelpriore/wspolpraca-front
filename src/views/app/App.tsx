@@ -5,16 +5,20 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
+import { ApolloProvider } from "@apollo/client";
+import { client } from "../../config/apollo/client/ApolloClient";
 import Home from "../home/Home";
 import "./App.css";
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact component={Home} />
-      </Switch>
-    </Router>
+    <ApolloProvider client={client}>
+      <Router>
+        <Switch>
+          <Route path="/" exact component={Home} />
+        </Switch>
+      </Router>
+    </ApolloProvider>
   );
 };
 

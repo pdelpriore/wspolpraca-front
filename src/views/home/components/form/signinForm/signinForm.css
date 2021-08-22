@@ -1,0 +1,9 @@
+.form__span {
+  display: block;
+  text-align: right;
+}
+
+.form__span:hover {
+  display: block;
+  cursor: pointer;
+}
