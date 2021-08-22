@@ -26,6 +26,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
   };
 
   const { showSignupForm } = useContext(SigningContext);
+
   const handleHideSignupFormOnClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {

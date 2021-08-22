@@ -21,6 +21,7 @@ const SigninForm: React.FC<SigninFormProps> = ({
   isSubmitFormDisabled,
 }) => {
   const { showSignupForm } = useContext(SigningContext);
+
   const handleShowSignupFormOnClick = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
