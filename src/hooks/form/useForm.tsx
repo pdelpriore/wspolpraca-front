@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { signupInput } from "../../views/home/components/form/signupForm/SignupForm";
+import { signupInput } from "../../views/home/components/form/signupForm/type/signupInputType";
+import { signinInput } from "../../views/home/components/form/signinForm/type/signinInputType";
 
-type input = signupInput;
+type input = signupInput | signinInput;
 
 const useForm = (initInput: input) => {
   const [input, setInput] = useState<input>(initInput);

@@ -1,13 +1,7 @@
 import React from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
+import { signupInput } from "./type/signupInputType";
 import "./signupForm.css";
-
-export type signupInput = {
-  username: string;
-  useremail: string;
-  userpassword: string;
-  usertype: string;
-};
 
 type onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => void;
 type onSubmitForm = (e: React.FormEvent) => void;

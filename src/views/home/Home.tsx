@@ -1,6 +1,7 @@
 import React from "react";
 import Trail from "./components/trail/Trail";
 import Signup from "./components/signup/Signup";
+import Signin from "./components/signin/Signin";
 import "./home.css";
 
 const Home: React.FC = () => {
@@ -16,7 +17,8 @@ const Home: React.FC = () => {
         </Trail>
       </div>
       <div className="home__form">
-        <Signup />
+        {/* <Signup /> */}
+        <Signin />
       </div>
       <div className="home__slogan">slogan</div>
     </div>
