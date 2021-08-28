@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -14,8 +14,11 @@ import "./App.css";
 const App: React.FC = () => {
   const [isUserLogged, setUserLogged] = useState<boolean>(false);
 
-  onAuthChanged(auth, (user) => {
-    setUserLogged(user !== null);
+  useEffect(() => {
+    const unsubscribe = onAuthChanged(auth, (user) => {
+      setUserLogged(user !== null);
+    });
+    return () => unsubscribe();
   });
 
   return (
