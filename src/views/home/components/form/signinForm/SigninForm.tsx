@@ -56,7 +56,11 @@ const SigninForm: React.FC<SigninFormProps> = ({
       <span className="form__span" onClick={handleShowSignupFormOnClick}>
         zarejestruj się
       </span>
-      <Button className="form_btn" disabled={isSubmitFormDisabled}>
+      <Button
+        type="submit"
+        className="form_btn"
+        disabled={isSubmitFormDisabled}
+      >
         Zaloguj się
       </Button>
     </Form>

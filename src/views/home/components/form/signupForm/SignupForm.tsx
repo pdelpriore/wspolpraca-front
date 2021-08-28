@@ -96,7 +96,11 @@ const SignupForm: React.FC<SignupFormProps> = ({
           })}
         </Form.Control>
       </Form.Group>
-      <Button className="form_btn" disabled={isSubmitFormDisabled}>
+      <Button
+        type="submit"
+        className="form_btn"
+        disabled={isSubmitFormDisabled}
+      >
         Zarejestruj się
       </Button>
       <Button
