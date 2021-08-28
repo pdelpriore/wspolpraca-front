@@ -12,6 +12,7 @@ interface SignupFormProps {
   onChangeInput: onChangeInput;
   onSubmitForm: onSubmitForm;
   isSubmitFormDisabled: boolean;
+  isLoading: boolean;
 }
 
 const SignupForm: React.FC<SignupFormProps> = ({
@@ -19,6 +20,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
   onChangeInput,
   onSubmitForm,
   isSubmitFormDisabled,
+  isLoading,
 }) => {
   const formOptions = {
     optionValues: ["youtuber", "brand"],
@@ -96,13 +98,17 @@ const SignupForm: React.FC<SignupFormProps> = ({
           })}
         </Form.Control>
       </Form.Group>
-      <Button
-        type="submit"
-        className="form_btn"
-        disabled={isSubmitFormDisabled}
-      >
-        Zarejestruj się
-      </Button>
+      {isLoading ? (
+        <Spinner animation="border" size="sm" />
+      ) : (
+        <Button
+          type="submit"
+          className="form_btn"
+          disabled={isSubmitFormDisabled}
+        >
+          Zarejestruj się
+        </Button>
+      )}
       <Button
         className="form_btn"
         variant="light"
