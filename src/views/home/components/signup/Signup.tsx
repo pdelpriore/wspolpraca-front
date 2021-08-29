@@ -3,7 +3,7 @@ import { Card } from "react-bootstrap";
 import SignupForm from "../form/signupForm/SignupForm";
 import useForm from "../../../../hooks/form/useForm";
 import useLoader from "../../../../hooks/loader/useLoader";
-import { signupInput } from "../form/signupForm/type/signupInputType";
+import { TSignupInput } from "../form/signupForm/type/signupInputType";
 import { auth, createUser } from "../../../../config/firebase/Firebase";
 import "./signup.css";
 
@@ -39,7 +39,7 @@ const Signup: React.FC = () => {
       <Card.Body>
         <h2 className="text-center mb-4">Sign up</h2>
         <SignupForm
-          input={input as signupInput}
+          input={input as TSignupInput}
           onChangeInput={changeSignupInput}
           onSubmitForm={handleSubmitSignupForm}
           isSubmitButtonDisabled={Object.values(input).includes("")}

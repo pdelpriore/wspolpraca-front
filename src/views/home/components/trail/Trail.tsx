@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useTrail, animated } from "react-spring";
 import "./trail.css";
 
-interface TrailProps {
+interface ITrailProps {
   children: React.ReactNode;
 }
 
-const Trail: React.FC<TrailProps> = ({ children }) => {
+const Trail: React.FC<ITrailProps> = ({ children }) => {
   const [isMount, setMounted] = useState<boolean>(false);
 
   useEffect(() => {

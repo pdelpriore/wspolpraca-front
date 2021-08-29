@@ -4,18 +4,18 @@ import { Form, Button, Spinner } from "react-bootstrap";
 import { signupInput } from "./type/signupInputType";
 import "./signupForm.css";
 
-type onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => void;
-type onSubmitForm = (e: React.FormEvent) => void;
+type TOnChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => void;
+type TOnSubmitForm = (e: React.FormEvent) => void;
 
-interface SignupFormProps {
+interface ISignupFormProps {
   input: signupInput;
-  onChangeInput: onChangeInput;
-  onSubmitForm: onSubmitForm;
+  onChangeInput: TOnChangeInput;
+  onSubmitForm: TOnSubmitForm;
   isSubmitButtonDisabled: boolean;
   isLoading: boolean;
 }
 
-const SignupForm: React.FC<SignupFormProps> = ({
+const SignupForm: React.FC<ISignupFormProps> = ({
   input,
   onChangeInput,
   onSubmitForm,

@@ -2,7 +2,7 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import SigninForm from "../form/signinForm/SigninForm";
 import useForm from "../../../../hooks/form/useForm";
-import { signinInput } from "../form/signinForm/type/signinInputType";
+import { TSigninInput } from "../form/signinForm/type/signinInputType";
 import "./signin.css";
 
 const Signin: React.FC = () => {
@@ -22,7 +22,7 @@ const Signin: React.FC = () => {
       <Card.Body>
         <h2 className="text-center mb-4">Sign in</h2>
         <SigninForm
-          input={input as signinInput}
+          input={input as TSigninInput}
           onChangeInput={changeSigninInput}
           onSubmitForm={handleSubmitSigninForm}
           isSubmitButtonDisabled={Object.values(input).includes("")}

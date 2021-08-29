@@ -1,4 +1,4 @@
-export type signinInput = {
+export type TSigninInput = {
   useremail: string;
   userpassword: string;
 };

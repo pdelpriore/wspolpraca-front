@@ -1,4 +1,4 @@
-export type signupInput = {
+export type TSignupInput = {
   username: string;
   useremail: string;
   userpassword: string;

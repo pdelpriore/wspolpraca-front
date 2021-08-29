@@ -4,17 +4,17 @@ import { signinInput } from "./type/signinInputType";
 import { SigningContext } from "../../../../../context/signing/SigningContext";
 import "./signinForm.css";
 
-type onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => void;
-type onSubmitForm = (e: React.FormEvent) => void;
+type TOnChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => void;
+type TOnSubmitForm = (e: React.FormEvent) => void;
 
-interface SigninFormProps {
+interface ISigninFormProps {
   input: signinInput;
-  onChangeInput: onChangeInput;
-  onSubmitForm: onSubmitForm;
+  onChangeInput: TOnChangeInput;
+  onSubmitForm: TOnSubmitForm;
   isSubmitButtonDisabled: boolean;
 }
 
-const SigninForm: React.FC<SigninFormProps> = ({
+const SigninForm: React.FC<ISigninFormProps> = ({
   input,
   onChangeInput,
   onSubmitForm,

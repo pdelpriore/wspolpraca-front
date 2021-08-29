@@ -2,8 +2,8 @@ import React, { createContext } from "react";
 
 type TShowSignupForm = (value: boolean) => void;
 
-interface SigningContextInterface {
+interface ISigningContext {
   showSignupForm: TShowSignupForm;
 }
 
-export const SigningContext = createContext({} as SigningContextInterface);
+export const SigningContext = createContext({} as ISigningContext);
