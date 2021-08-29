@@ -11,14 +11,14 @@ interface SigninFormProps {
   input: signinInput;
   onChangeInput: onChangeInput;
   onSubmitForm: onSubmitForm;
-  isSubmitFormDisabled: boolean;
+  isSubmitButtonDisabled: boolean;
 }
 
 const SigninForm: React.FC<SigninFormProps> = ({
   input,
   onChangeInput,
   onSubmitForm,
-  isSubmitFormDisabled,
+  isSubmitButtonDisabled,
 }) => {
   const { showSignupForm } = useContext(SigningContext);
 
@@ -59,7 +59,7 @@ const SigninForm: React.FC<SigninFormProps> = ({
       <Button
         type="submit"
         className="form_btn"
-        disabled={isSubmitFormDisabled}
+        disabled={isSubmitButtonDisabled}
       >
         Zaloguj się
       </Button>

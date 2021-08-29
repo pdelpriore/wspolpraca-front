@@ -11,7 +11,7 @@ interface SignupFormProps {
   input: signupInput;
   onChangeInput: onChangeInput;
   onSubmitForm: onSubmitForm;
-  isSubmitFormDisabled: boolean;
+  isSubmitButtonDisabled: boolean;
   isLoading: boolean;
 }
 
@@ -19,7 +19,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
   input,
   onChangeInput,
   onSubmitForm,
-  isSubmitFormDisabled,
+  isSubmitButtonDisabled,
   isLoading,
 }) => {
   const formOptions = {
@@ -104,7 +104,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
         <Button
           type="submit"
           className="form_btn"
-          disabled={isSubmitFormDisabled}
+          disabled={isSubmitButtonDisabled}
         >
           Zarejestruj się
         </Button>

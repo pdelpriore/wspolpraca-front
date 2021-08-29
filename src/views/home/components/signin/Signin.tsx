@@ -25,7 +25,7 @@ const Signin: React.FC = () => {
           input={input as signinInput}
           onChangeInput={changeSigninInput}
           onSubmitForm={handleSubmitSigninForm}
-          isSubmitFormDisabled={Object.values(input).includes("")}
+          isSubmitButtonDisabled={Object.values(input).includes("")}
         />
       </Card.Body>
     </Card>
