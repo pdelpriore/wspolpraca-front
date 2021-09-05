@@ -5,6 +5,9 @@ import useForm from "../../../../hooks/form/useForm";
 import useLoader from "../../../../hooks/loader/useLoader";
 import { TSignupInput } from "../form/signupForm/type/signupInputType";
 import { auth, createUser } from "../../../../config/firebase/Firebase";
+import { useMutation } from "@apollo/client";
+import { SIGNUP_USER } from "./query/SignupUser";
+import { capitalizeFirst } from "../../../../shared/capitalize";
 import "./signup.css";
 
 const Signup: React.FC = () => {
@@ -17,14 +20,29 @@ const Signup: React.FC = () => {
   const [input, changeSignupInput] = useForm(signupInitInput);
   const [isLoading, setLoader] = useLoader(false);
 
+  const [signupUser, { data, error }] = useMutation(SIGNUP_USER);
+
   const handleSubmitSignupForm = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       setLoader(true);
       const user = await createUser(auth, input.useremail, input.userpassword);
       if (user) {
-        setLoader(false);
-        console.log(user);
+        signupUser({
+          variables: {
+            suffix: capitalizeFirst((input as TSignupInput).usertype),
+            [`signup${capitalizeFirst((input as TSignupInput).usertype)}Data`]:
+              {
+                userType: (input as TSignupInput).usertype,
+                name: (input as TSignupInput).username,
+                email: (input as TSignupInput).useremail,
+              },
+          },
+        });
+        if (data) {
+          console.log(data);
+          setLoader(false);
+        }
       }
     } catch (err) {
       if (err) {
