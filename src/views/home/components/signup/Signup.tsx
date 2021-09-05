@@ -48,24 +48,19 @@ const Signup: React.FC = () => {
         input.useremail,
         input.userpassword
       );
-      if (credentials) {
-        const idToken = await credentials.user.getIdToken();
-        if (idToken) {
-          setTokenId(idToken);
-          signupUser({
-            variables: {
-              [`signup${capitalizeFirst(
-                (input as TSignupInput).usertype
-              )}Data`]: {
-                userType: (input as TSignupInput).usertype,
-                name: (input as TSignupInput).username,
-                email: (input as TSignupInput).useremail,
-              },
-            },
-          });
-          setLoader(false);
-        }
-      }
+      const idToken = await credentials.user.getIdToken();
+
+      setTokenId(idToken);
+      signupUser({
+        variables: {
+          [`signup${capitalizeFirst((input as TSignupInput).usertype)}Data`]: {
+            userType: (input as TSignupInput).usertype,
+            name: (input as TSignupInput).username,
+            email: (input as TSignupInput).useremail,
+          },
+        },
+      });
+      setLoader(false);
     } catch (err) {
       if (err) {
         setLoader(false);
