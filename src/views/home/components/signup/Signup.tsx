@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "react-bootstrap";
 import SignupForm from "../form/signupForm/SignupForm";
 import useForm from "../../../../hooks/form/useForm";
@@ -8,6 +8,7 @@ import { auth, createUser } from "../../../../config/firebase/Firebase";
 import { useMutation } from "@apollo/client";
 import { SIGNUP_USER } from "./query/SignupUser";
 import { capitalizeFirst } from "../../../../shared/capitalize";
+import { getTokenId } from "./method/getTokenId";
 import "./signup.css";
 
 const Signup: React.FC = () => {
@@ -20,25 +21,51 @@ const Signup: React.FC = () => {
   const [input, changeSignupInput] = useForm(signupInitInput);
   const [isLoading, setLoader] = useLoader(false);
 
-  const [signupUser, { data, loading, error }] = useMutation(SIGNUP_USER);
+  const [tokenId, setTokenId] = useState<string>("");
+
+  const [signupUser, { loading, error }] = useMutation(SIGNUP_USER, {
+    context: {
+      headers: {
+        "x-auth": tokenId,
+        "Content-Type": "application/json",
+      },
+    },
+    onCompleted: ({
+      [`signup${capitalizeFirst((input as TSignupInput).usertype)}`]:
+        signupUser,
+    }) => {
+      if (signupUser) {
+        console.log("signed up successfully !");
+      }
+    },
+  });
 
   const handleSubmitSignupForm = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       setLoader(true);
-      const user = await createUser(auth, input.useremail, input.userpassword);
-      if (user) {
-        signupUser({
-          variables: {
-            [`signup${capitalizeFirst((input as TSignupInput).usertype)}Data`]:
-              {
+      const credentials = await createUser(
+        auth,
+        input.useremail,
+        input.userpassword
+      );
+      if (credentials) {
+        const idToken = getTokenId(credentials);
+        if (idToken) {
+          setTokenId(idToken);
+          signupUser({
+            variables: {
+              [`signup${capitalizeFirst(
+                (input as TSignupInput).usertype
+              )}Data`]: {
                 userType: (input as TSignupInput).usertype,
                 name: (input as TSignupInput).username,
                 email: (input as TSignupInput).useremail,
               },
-          },
-        });
-        setLoader(false);
+            },
+          });
+          setLoader(false);
+        }
       }
     } catch (err) {
       if (err) {
@@ -47,8 +74,6 @@ const Signup: React.FC = () => {
       }
     }
   };
-
-  console.log(data);
 
   return (
     <Card>
