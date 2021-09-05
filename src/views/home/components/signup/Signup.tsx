@@ -30,7 +30,6 @@ const Signup: React.FC = () => {
       if (user) {
         signupUser({
           variables: {
-            suffix: capitalizeFirst((input as TSignupInput).usertype),
             [`signup${capitalizeFirst((input as TSignupInput).usertype)}Data`]:
               {
                 userType: (input as TSignupInput).usertype,
