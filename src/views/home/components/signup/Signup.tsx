@@ -51,7 +51,6 @@ const Signup: React.FC = () => {
       const idToken = await credentials.user.getIdToken();
 
       setTokenId(idToken);
-      setLoader(false);
 
       signupUser({
         variables: {
@@ -62,6 +61,7 @@ const Signup: React.FC = () => {
           },
         },
       });
+      setLoader(false);
     } catch (err) {
       if (err) {
         setLoader(false);
