@@ -8,7 +8,6 @@ import { auth, createUser } from "../../../../config/firebase/Firebase";
 import { useMutation } from "@apollo/client";
 import { SIGNUP_USER } from "./query/SignupUser";
 import { capitalizeFirst } from "../../../../shared/capitalize";
-import { getTokenId } from "./method/getTokenId";
 import "./signup.css";
 
 const Signup: React.FC = () => {
@@ -50,7 +49,7 @@ const Signup: React.FC = () => {
         input.userpassword
       );
       if (credentials) {
-        const idToken = getTokenId(credentials);
+        const idToken = await credentials.user.getIdToken();
         if (idToken) {
           setTokenId(idToken);
           signupUser({
