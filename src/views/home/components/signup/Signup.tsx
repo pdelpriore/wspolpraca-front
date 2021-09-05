@@ -20,7 +20,7 @@ const Signup: React.FC = () => {
   const [input, changeSignupInput] = useForm(signupInitInput);
   const [isLoading, setLoader] = useLoader(false);
 
-  const [signupUser, { data, error }] = useMutation(SIGNUP_USER);
+  const [signupUser, { data, loading, error }] = useMutation(SIGNUP_USER);
 
   const handleSubmitSignupForm = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,10 +39,7 @@ const Signup: React.FC = () => {
               },
           },
         });
-        if (data) {
-          console.log(data);
-          setLoader(false);
-        }
+        setLoader(false);
       }
     } catch (err) {
       if (err) {
@@ -51,6 +48,8 @@ const Signup: React.FC = () => {
       }
     }
   };
+
+  console.log(data);
 
   return (
     <Card>
@@ -61,7 +60,7 @@ const Signup: React.FC = () => {
           onChangeInput={changeSignupInput}
           onSubmitForm={handleSubmitSignupForm}
           isSubmitButtonDisabled={Object.values(input).includes("")}
-          isLoading={isLoading}
+          isLoading={isLoading || loading}
         />
       </Card.Body>
     </Card>
