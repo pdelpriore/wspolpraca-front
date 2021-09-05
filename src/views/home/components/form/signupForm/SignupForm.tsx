@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import { SigningContext } from "../../../../../context/signing/SigningContext";
 import { Form, Button, Spinner } from "react-bootstrap";
-import { signupInput } from "./type/signupInputType";
+import { TSignupInput } from "./type/signupInputType";
 import "./signupForm.css";
 
 type TOnChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => void;
 type TOnSubmitForm = (e: React.FormEvent) => void;
 
 interface ISignupFormProps {
-  input: signupInput;
+  input: TSignupInput;
   onChangeInput: TOnChangeInput;
   onSubmitForm: TOnSubmitForm;
   isSubmitButtonDisabled: boolean;
