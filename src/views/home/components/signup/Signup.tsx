@@ -51,6 +51,8 @@ const Signup: React.FC = () => {
       const idToken = await credentials.user.getIdToken();
 
       setTokenId(idToken);
+      setLoader(false);
+
       signupUser({
         variables: {
           [`signup${capitalizeFirst((input as TSignupInput).usertype)}Data`]: {
@@ -60,7 +62,6 @@ const Signup: React.FC = () => {
           },
         },
       });
-      setLoader(false);
     } catch (err) {
       if (err) {
         setLoader(false);
