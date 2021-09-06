@@ -93,7 +93,6 @@ const Signup: React.FC = () => {
           onChangeInput={changeSignupInput}
           onSubmitForm={handleSubmitSignupForm}
           isSubmitButtonDisabled={Object.values(input).includes("")}
-          isCancelButtonDisabled={isLoading || loading}
           isLoading={isLoading || loading}
         />
       </Card.Body>
