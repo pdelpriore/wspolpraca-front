@@ -6,7 +6,7 @@ import useLoader from "../../../../hooks/loader/useLoader";
 import { TSignupInput } from "../form/signupForm/type/signupInputType";
 import { auth, createUser } from "../../../../config/firebase/Firebase";
 import { useMutation } from "@apollo/client";
-import { SIGNUP_USER } from "./query/SignupUser";
+import getMutation from "./method/getMutation";
 import { capitalizeFirst } from "../../../../shared/capitalize";
 import "./signup.css";
 
@@ -22,7 +22,11 @@ const Signup: React.FC = () => {
 
   const [tokenId, setTokenId] = useState<string>("");
 
-  const [signupUser, { loading, error }] = useMutation(SIGNUP_USER, {
+  const mutation = getMutation(
+    capitalizeFirst((input as TSignupInput).usertype)
+  );
+
+  const [signupUser, { loading, error }] = useMutation(mutation, {
     context: {
       headers: {
         "x-auth": tokenId,
