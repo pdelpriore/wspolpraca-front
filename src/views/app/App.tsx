@@ -13,12 +13,12 @@ const App: React.FC = () => {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <div className="layer">
+        <div className="container">
           <Switch>
             <Route path="/" exact component={Home}></Route>
           </Switch>
           <Snackbar
-            className="layer__snackbar"
+            className="container__snackbar"
             title={title}
             message={message}
             variant={variant}
