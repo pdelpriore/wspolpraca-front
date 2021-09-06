@@ -1,11 +1,11 @@
 import { makeVar } from "@apollo/client";
 
-type message = {
+interface IMessage {
   title?: string;
   message?: string;
   variant?: string;
-};
+}
 
-const showMessage = makeVar({} as message);
+const showMessage = makeVar({} as IMessage);
 
 export default showMessage;
