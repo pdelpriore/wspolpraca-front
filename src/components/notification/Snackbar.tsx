@@ -24,8 +24,7 @@ const Snackbar: React.FC<ISnackbarProps> = ({
   };
 
   useEffect(() => {
-    if (title && title.length > 0 && message && message.length > 0)
-      setToastVisible(true);
+    if (title && message) setToastVisible(true);
   }, [title, message]);
 
   return (
@@ -34,7 +33,7 @@ const Snackbar: React.FC<ISnackbarProps> = ({
         show={isToastVisible}
         onClose={handleHideToast}
         bg={variant}
-        delay={1000}
+        delay={2500}
         autohide
       >
         <Toast.Header>
