@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Toast, ToastContainer } from "react-bootstrap";
+import { Toast, ToastContainer, Fade } from "react-bootstrap";
 import showMessage from "../../shared/showMessage";
 import "./snackbar.css";
 
@@ -35,6 +35,8 @@ const Snackbar: React.FC<ISnackbarProps> = ({
         bg={variant}
         delay={2500}
         autohide
+        animation
+        transition={Fade}
       >
         <Toast.Header closeButton={false}>
           <strong>{title}</strong>
