@@ -12,6 +12,7 @@ interface ISignupFormProps {
   onChangeInput: TOnChangeInput;
   onSubmitForm: TOnSubmitForm;
   isSubmitButtonDisabled: boolean;
+  isCancelButtonDisabled: boolean;
   isLoading: boolean;
 }
 
@@ -20,6 +21,7 @@ const SignupForm: React.FC<ISignupFormProps> = ({
   onChangeInput,
   onSubmitForm,
   isSubmitButtonDisabled,
+  isCancelButtonDisabled,
   isLoading,
 }) => {
   const formOptions = {
@@ -113,6 +115,7 @@ const SignupForm: React.FC<ISignupFormProps> = ({
         className="form_btn"
         variant="light"
         onClick={handleHideSignupFormOnClick}
+        disabled={isCancelButtonDisabled}
       >
         Anuluj
       </Button>

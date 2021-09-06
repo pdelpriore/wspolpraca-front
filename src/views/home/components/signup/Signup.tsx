@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Card } from "react-bootstrap";
 import SignupForm from "../form/signupForm/SignupForm";
 import useForm from "../../../../hooks/form/useForm";
@@ -9,6 +9,7 @@ import { useMutation } from "@apollo/client";
 import getMutation from "./method/getMutation";
 import { capitalizeFirst } from "../../../../shared/capitalize";
 import showMessage from "../../../../shared/showMessage";
+import { SigningContext } from "../../../../context/signing/SigningContext";
 import "./signup.css";
 
 const Signup: React.FC = () => {
@@ -20,6 +21,8 @@ const Signup: React.FC = () => {
   };
   const [input, changeSignupInput] = useForm(signupInitInput);
   const [isLoading, setLoader] = useLoader(false);
+
+  const { showSignupForm } = useContext(SigningContext);
 
   const [tokenId, setTokenId] = useState<string>("");
 
@@ -40,6 +43,7 @@ const Signup: React.FC = () => {
     }) => {
       if (signupUser) {
         console.log("signed up successfully !");
+        showSignupForm(false);
         showMessage({
           title: "Rejestracja",
           message: "Zarejestrowales sie !",
@@ -89,6 +93,7 @@ const Signup: React.FC = () => {
           onChangeInput={changeSignupInput}
           onSubmitForm={handleSubmitSignupForm}
           isSubmitButtonDisabled={Object.values(input).includes("")}
+          isCancelButtonDisabled={isLoading || loading}
           isLoading={isLoading || loading}
         />
       </Card.Body>
