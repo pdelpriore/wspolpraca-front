@@ -10,7 +10,7 @@ const Signin: React.FC = () => {
     useremail: "",
     userpassword: "",
   };
-  const [input, changeSigninInput] = useForm(signinInitInput);
+  const [input, changeSigninInput] = useForm<TSigninInput>(signinInitInput);
 
   const handleSubmitSigninForm = (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +22,7 @@ const Signin: React.FC = () => {
       <Card.Body>
         <h2 className="text-center mb-4">Sign in</h2>
         <SigninForm
-          input={input as TSigninInput}
+          input={input}
           onChangeInput={changeSigninInput}
           onSubmitForm={handleSubmitSigninForm}
           isSubmitButtonDisabled={Object.values(input).includes("")}

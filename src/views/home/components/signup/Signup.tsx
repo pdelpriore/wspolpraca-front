@@ -19,16 +19,14 @@ const Signup: React.FC = () => {
     userpassword: "",
     usertype: "",
   };
-  const [input, changeSignupInput] = useForm(signupInitInput);
+  const [input, changeSignupInput] = useForm<TSignupInput>(signupInitInput);
   const [isLoading, setLoader] = useLoader(false);
 
   const { showSignupForm } = useContext(SigningContext);
 
   const [tokenId, setTokenId] = useState<string>("");
 
-  const mutation = getMutation(
-    capitalizeFirst((input as TSignupInput).usertype)
-  );
+  const mutation = getMutation(capitalizeFirst(input.usertype));
 
   const [signupUser, { loading, error }] = useMutation(mutation, {
     context: {
@@ -38,8 +36,7 @@ const Signup: React.FC = () => {
       },
     },
     onCompleted: ({
-      [`signup${capitalizeFirst((input as TSignupInput).usertype)}`]:
-        signupUser,
+      [`signup${capitalizeFirst(input.usertype)}`]: signupUser,
     }) => {
       if (signupUser) {
         console.log("signed up successfully !");
@@ -68,10 +65,10 @@ const Signup: React.FC = () => {
 
       signupUser({
         variables: {
-          [`signup${capitalizeFirst((input as TSignupInput).usertype)}Data`]: {
-            userType: (input as TSignupInput).usertype,
-            name: (input as TSignupInput).username,
-            email: (input as TSignupInput).useremail,
+          [`signup${capitalizeFirst(input.usertype)}Data`]: {
+            userType: input.usertype,
+            name: input.username,
+            email: input.useremail,
           },
         },
       });
@@ -89,7 +86,7 @@ const Signup: React.FC = () => {
       <Card.Body>
         <h2 className="text-center mb-4">Sign up</h2>
         <SignupForm
-          input={input as TSignupInput}
+          input={input}
           onChangeInput={changeSignupInput}
           onSubmitForm={handleSubmitSignupForm}
           isSubmitButtonDisabled={Object.values(input).includes("")}
