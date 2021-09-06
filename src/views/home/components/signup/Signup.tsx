@@ -20,11 +20,10 @@ const Signup: React.FC = () => {
     usertype: "",
   };
   const [input, changeSignupInput] = useForm<TSignupInput>(signupInitInput);
-  const [isLoading, setLoader] = useLoader(false);
+  const [isLoading, setLoader] = useLoader<boolean>(false);
+  const [tokenId, setTokenId] = useState<string>("");
 
   const { showSignupForm } = useContext(SigningContext);
-
-  const [tokenId, setTokenId] = useState<string>("");
 
   const mutation = getMutation(capitalizeFirst(input.usertype));
 

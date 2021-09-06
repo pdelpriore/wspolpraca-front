@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-const useLoader = (initValue: boolean) => {
-  const [isLoading, setLoader] = useState<boolean>(initValue);
+const useLoader = <T>(initValue: T) => {
+  const [isLoading, setLoader] = useState<T>(initValue);
 
-  const handleSetLoader = (value: boolean) => setLoader(value);
+  const handleSetLoader = (value: T) => setLoader(value);
 
   return [isLoading, handleSetLoader] as const;
 };

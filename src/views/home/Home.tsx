@@ -7,7 +7,7 @@ import Signin from "./components/signin/Signin";
 import "./home.css";
 
 const Home: React.FC = () => {
-  const [isSignupVisible, setSignupVisible] = useVisibility(false);
+  const [isSignupVisible, setSignupVisible] = useVisibility<boolean>(false);
 
   return (
     <div className="home">
