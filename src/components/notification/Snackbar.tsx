@@ -36,7 +36,7 @@ const Snackbar: React.FC<ISnackbarProps> = ({
         delay={2500}
         autohide
       >
-        <Toast.Header>
+        <Toast.Header closeButton={false}>
           <strong>{title}</strong>
         </Toast.Header>
         <Toast.Body>{message}</Toast.Body>
