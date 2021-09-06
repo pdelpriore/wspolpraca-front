@@ -8,6 +8,7 @@ import { auth, createUser } from "../../../../config/firebase/Firebase";
 import { useMutation } from "@apollo/client";
 import getMutation from "./method/getMutation";
 import { capitalizeFirst } from "../../../../shared/capitalize";
+import showMessage from "../../../../shared/showMessage";
 import "./signup.css";
 
 const Signup: React.FC = () => {
@@ -39,6 +40,11 @@ const Signup: React.FC = () => {
     }) => {
       if (signupUser) {
         console.log("signed up successfully !");
+        showMessage({
+          title: "Rejestracja",
+          message: "Zarejestrowales sie !",
+          variant: "light",
+        });
       }
     },
   });
