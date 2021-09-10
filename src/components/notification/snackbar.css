@@ -1,5 +1,13 @@
-.toast_container {
+.wrapper {
+  position: relative;
+}
+
+.wrapper_toast {
   position: absolute;
-  bottom: 0;
+  bottom: 5vh;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100vw;
+  height: 7vh;
+  padding: 0 30vw;
 }

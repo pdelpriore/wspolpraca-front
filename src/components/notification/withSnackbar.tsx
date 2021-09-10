@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useReactiveVar } from "@apollo/client";
-import { Toast, ToastContainer, Fade } from "react-bootstrap";
+import { Toast, Fade } from "react-bootstrap";
 import showMessage from "../../shared/showMessage";
 import "./snackbar.css";
 
@@ -19,25 +19,24 @@ const withSnackbar = (Component: React.FC) => () => {
   }, [title, message]);
 
   return (
-    <>
+    <div className="wrapper">
       <Component />
-      <ToastContainer className="toast_container">
-        <Toast
-          show={isToastVisible}
-          onClose={handleHideToast}
-          bg={variant}
-          delay={2500}
-          autohide
-          animation
-          transition={Fade}
-        >
-          <Toast.Header closeButton={false}>
-            <strong>{title}</strong>
-          </Toast.Header>
-          <Toast.Body>{message}</Toast.Body>
-        </Toast>
-      </ToastContainer>
-    </>
+      <Toast
+        className="wrapper_toast"
+        show={isToastVisible}
+        onClose={handleHideToast}
+        bg={variant}
+        delay={2500}
+        autohide
+        animation
+        transition={Fade}
+      >
+        <Toast.Header closeButton={false}>
+          <strong>{title}</strong>
+        </Toast.Header>
+        <Toast.Body>{message}</Toast.Body>
+      </Toast>
+    </div>
   );
 };
 
