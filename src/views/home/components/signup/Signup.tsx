@@ -12,7 +12,7 @@ import showMessage from "../../../../shared/showMessage";
 import { SigningContext } from "../../../../context/signing/SigningContext";
 import {
   firebaseAuthError,
-  TAuthError,
+  AuthError,
 } from "../../../../shared/firebaseAuthErrors";
 import { FirebaseError } from "@firebase/util";
 import "./signup.css";
@@ -82,7 +82,7 @@ const Signup: React.FC = () => {
         setLoader(false);
         showMessage({
           title: "Rejestracja",
-          message: firebaseAuthError[err.code as TAuthError],
+          message: firebaseAuthError[err.code as AuthError],
           variant: "danger",
         });
       }
