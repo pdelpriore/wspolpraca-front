@@ -14,6 +14,7 @@ import {
   firebaseAuthError,
   TAuthError,
 } from "../../../../shared/firebaseAuthErrors";
+import { FirebaseError } from "@firebase/util";
 import "./signup.css";
 
 const Signup: React.FC = () => {
@@ -77,18 +78,16 @@ const Signup: React.FC = () => {
       });
       setLoader(false);
     } catch (err) {
-      if (err instanceof Error) {
+      if (err instanceof FirebaseError) {
         setLoader(false);
-        console.log(err.message);
+        showMessage({
+          title: "Rejestracja",
+          message: firebaseAuthError[err.code as TAuthError],
+          variant: "danger",
+        });
       }
     }
   };
-
-  if (error)
-    showMessage({
-      title: "Rejestracja",
-      message: firebaseAuthError[error.message as TAuthError],
-    });
 
   return (
     <Card>
