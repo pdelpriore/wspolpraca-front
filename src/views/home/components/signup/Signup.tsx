@@ -4,17 +4,22 @@ import SignupForm from "../form/signupForm/SignupForm";
 import useForm from "../../../../hooks/form/useForm";
 import useLoader from "../../../../hooks/loader/useLoader";
 import { TSignupInput } from "../form/signupForm/type/signupInputType";
-import { auth, createUser } from "../../../../config/firebase/Firebase";
+import {
+  auth,
+  createUser,
+  sendVerificationEmail,
+} from "../../../../config/firebase/Firebase";
+import {
+  firebaseAuthError,
+  AuthError,
+} from "../../../../shared/firebaseAuthErrors";
+import { User } from "@firebase/auth";
+import { FirebaseError } from "@firebase/util";
 import { useMutation } from "@apollo/client";
 import getMutation from "./method/getMutation";
 import { capitalizeFirst } from "../../../../shared/capitalize";
 import showMessage from "../../../../shared/showMessage";
 import { SigningContext } from "../../../../context/signing/SigningContext";
-import {
-  firebaseAuthError,
-  AuthError,
-} from "../../../../shared/firebaseAuthErrors";
-import { FirebaseError } from "@firebase/util";
 import "./signup.css";
 
 const Signup: React.FC = () => {
@@ -39,15 +44,17 @@ const Signup: React.FC = () => {
         "Content-Type": "application/json",
       },
     },
-    onCompleted: ({
+    onCompleted: async ({
       [`signup${capitalizeFirst(input.usertype)}`]: signupUser,
     }) => {
       if (signupUser) {
-        console.log("signed up successfully !");
+        await sendVerificationEmail(auth.currentUser as User);
+
         showSignupForm(false);
+
         showMessage({
           title: "Rejestracja",
-          message: "Zarejestrowales sie !",
+          message: "Zarejestrowałeś się pomyślnie. Potwierdź swój email.",
           variant: "light",
         });
       }
@@ -64,7 +71,6 @@ const Signup: React.FC = () => {
         input.userpassword
       );
       const idToken = await credentials.user.getIdToken();
-
       setTokenId(idToken);
 
       signupUser({

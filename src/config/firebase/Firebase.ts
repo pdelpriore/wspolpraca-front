@@ -1,5 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 
 const app = initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -12,3 +16,4 @@ const app = initializeApp({
 
 export const auth = getAuth(app);
 export const createUser = createUserWithEmailAndPassword;
+export const sendVerificationEmail = sendEmailVerification;
