@@ -77,9 +77,9 @@ const Signup: React.FC = () => {
       });
       setLoader(false);
     } catch (err) {
-      if (err) {
+      if (err instanceof Error) {
         setLoader(false);
-        console.log(err);
+        console.log(err.message);
       }
     }
   };
