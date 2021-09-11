@@ -48,15 +48,19 @@ const Signup: React.FC = () => {
       [`signup${capitalizeFirst(input.usertype)}`]: signupUser,
     }) => {
       if (signupUser) {
-        await sendVerificationEmail(auth.currentUser as User);
+        try {
+          await sendVerificationEmail(auth.currentUser as User);
 
-        showSignupForm(false);
+          showSignupForm(false);
 
-        showMessage({
-          title: "Rejestracja",
-          message: "Zarejestrowałeś się pomyślnie. Potwierdź swój email.",
-          variant: "light",
-        });
+          showMessage({
+            title: "Rejestracja",
+            message: "Zarejestrowałeś się pomyślnie. Potwierdź swój email.",
+            variant: "light",
+          });
+        } catch (err) {
+          if (err instanceof Error) console.log(err.message);
+        }
       }
     },
   });
