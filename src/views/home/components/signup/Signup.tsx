@@ -12,7 +12,7 @@ import showMessage from "../../../../shared/showMessage";
 import { SigningContext } from "../../../../context/signing/SigningContext";
 import {
   firebaseAuthError,
-  authErrorType,
+  TAuthError,
 } from "../../../../shared/firebaseAuthErrors";
 import "./signup.css";
 
@@ -87,7 +87,7 @@ const Signup: React.FC = () => {
   if (error)
     showMessage({
       title: "Rejestracja",
-      message: firebaseAuthError[error.message as authErrorType],
+      message: firebaseAuthError[error.message as TAuthError],
     });
 
   return (

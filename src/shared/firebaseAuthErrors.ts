@@ -1,6 +1,6 @@
 import { ErrorMap } from "@firebase/util";
 
-export const enum authErrorType {
+export enum TAuthError {
   EMAIL_ALREADY_EXISTS = "auth/email-already-exists",
   INVALID_EMAIL = "auth/invalid-email",
   INVALID_EMAIL_VERIFIED = "auth/invalid-email-verified",
@@ -8,10 +8,10 @@ export const enum authErrorType {
   USER_NOT_FOUND = "auth/user-not-found",
 }
 
-export const firebaseAuthError: ErrorMap<authErrorType> = {
-  [authErrorType.EMAIL_ALREADY_EXISTS]: "użytkownik jest już zarejestrowany",
-  [authErrorType.INVALID_EMAIL]: "nieprawidłowy email",
-  [authErrorType.INVALID_EMAIL_VERIFIED]: "email nie zweryfikowany",
-  [authErrorType.INVALID_PASSWORD]: "nieprawidłowe hasło",
-  [authErrorType.USER_NOT_FOUND]: "użytkownik nie istnieje",
+export const firebaseAuthError: ErrorMap<TAuthError> = {
+  [TAuthError.EMAIL_ALREADY_EXISTS]: "użytkownik jest już zarejestrowany",
+  [TAuthError.INVALID_EMAIL]: "nieprawidłowy email",
+  [TAuthError.INVALID_EMAIL_VERIFIED]: "email nie zweryfikowany",
+  [TAuthError.INVALID_PASSWORD]: "nieprawidłowe hasło",
+  [TAuthError.USER_NOT_FOUND]: "użytkownik nie istnieje",
 };
