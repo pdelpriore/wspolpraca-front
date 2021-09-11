@@ -10,6 +10,10 @@ import getMutation from "./method/getMutation";
 import { capitalizeFirst } from "../../../../shared/capitalize";
 import showMessage from "../../../../shared/showMessage";
 import { SigningContext } from "../../../../context/signing/SigningContext";
+import {
+  firebaseAuthError,
+  authErrorType,
+} from "../../../../shared/firebaseAuthErrors";
 import "./signup.css";
 
 const Signup: React.FC = () => {
@@ -79,6 +83,12 @@ const Signup: React.FC = () => {
       }
     }
   };
+
+  if (error)
+    showMessage({
+      title: "Rejestracja",
+      message: firebaseAuthError[error.message as authErrorType],
+    });
 
   return (
     <Card>
