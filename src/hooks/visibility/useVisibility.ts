@@ -21,7 +21,7 @@ const useVisibility = <T extends IVisibility | boolean>(initValue: T) => {
                 ? [component, (value = true)]
                 : [key, (value = false)]
             );
-            return Object.fromEntries(entries);
+            return Object.fromEntries(entries) as T;
           }
         : (val as T)
     );
