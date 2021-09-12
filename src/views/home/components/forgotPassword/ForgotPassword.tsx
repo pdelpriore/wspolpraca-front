@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card } from "react-bootstrap";
 import ForgotPasswordForm from "../form/forgotPasswordForm/ForgotPasswordForm";
 import useForm from "../../../../hooks/form/useForm";
 import useLoader from "../../../../hooks/loader/useLoader";
 import showMessage from "../../../../shared/showMessage";
+import { ShowingFormContext } from "../../../../context/signing/ShowingFormContext";
 import { auth, resetPassword } from "../../../../config/firebase/Firebase";
 import {
   AuthError,
@@ -17,18 +18,21 @@ const ForgotPassword: React.FC = () => {
   const forgotPasswordInitInput = {
     useremail: "",
   };
+
   const [input, changeForgotPasswordInput] = useForm<TForgotPasswordInput>(
     forgotPasswordInitInput
   );
-
   const [isLoading, setLoader] = useLoader<boolean>(false);
+  const { showForm } = useContext(ShowingFormContext);
 
   const handleSubmitForgotPasswordForm = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       setLoader(true);
       await resetPassword(auth, input.useremail);
+
       setLoader(false);
+      showForm("signinForm");
 
       showMessage({
         title: "Reset hasła",
