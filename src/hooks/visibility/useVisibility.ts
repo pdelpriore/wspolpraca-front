@@ -8,8 +8,8 @@ const useVisibility = <T extends IVisibility>(initValue: T) => {
   const [isVisible, setVisibile] = useState<T>(initValue);
 
   const handleVisibility = (component: string) =>
-    setVisibile((isVis) => {
-      const entries = Object.entries(isVis).map(([key, value]) =>
+    setVisibile((isShown) => {
+      const entries = Object.entries(isShown).map(([key, value]) =>
         key === component ? [component, (value = true)] : [key, (value = false)]
       );
       return Object.fromEntries(entries);
