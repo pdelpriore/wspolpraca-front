@@ -3,6 +3,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 
 const app = initializeApp({
@@ -17,3 +18,4 @@ const app = initializeApp({
 export const auth = getAuth(app);
 export const createUser = createUserWithEmailAndPassword;
 export const sendVerificationEmail = sendEmailVerification;
+export const resetPassword = sendPasswordResetEmail;

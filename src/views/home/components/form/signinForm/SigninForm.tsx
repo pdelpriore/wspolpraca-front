@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
 import { TSigninInput } from "./type/signinInputType";
-import { SigningContext } from "../../../../../context/signing/SigningContext";
+import { ShowingFormContext } from "../../../../../context/signing/ShowingFormContext";
 import "./signinForm.css";
 
 type TOnChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -20,13 +20,20 @@ const SigninForm: React.FC<ISigninFormProps> = ({
   onSubmitForm,
   isSubmitButtonDisabled,
 }) => {
-  const { showSignupForm } = useContext(SigningContext);
+  const { showForm } = useContext(ShowingFormContext);
 
   const handleShowSignupFormOnClick = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
     e.preventDefault();
-    showSignupForm(true);
+    showForm("signupForm");
+  };
+
+  const handleShowForgotPasswordFormOnClick = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    showForm("forgotPasswordForm");
   };
 
   return (
@@ -55,6 +62,12 @@ const SigninForm: React.FC<ISigninFormProps> = ({
       </Form.Group>
       <span className="form__span" onClick={handleShowSignupFormOnClick}>
         zarejestruj się
+      </span>
+      <span
+        className="form__span"
+        onClick={handleShowForgotPasswordFormOnClick}
+      >
+        zapomniałeś hasła ?
       </span>
       <Button
         type="submit"

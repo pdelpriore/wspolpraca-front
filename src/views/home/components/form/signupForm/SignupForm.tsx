@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { SigningContext } from "../../../../../context/signing/SigningContext";
+import { ShowingFormContext } from "../../../../../context/signing/ShowingFormContext";
 import { Form, Button, Spinner } from "react-bootstrap";
 import { TSignupInput } from "./type/signupInputType";
 import "./signupForm.css";
@@ -27,13 +27,13 @@ const SignupForm: React.FC<ISignupFormProps> = ({
     optionLabels: ["Youtuber", "Firma"],
   };
 
-  const { showSignupForm } = useContext(SigningContext);
+  const { showForm } = useContext(ShowingFormContext);
 
-  const handleHideSignupFormOnClick = (
+  const handleShowSigninFormOnClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    showSignupForm(false);
+    showForm("signinForm");
   };
 
   return (
@@ -112,7 +112,7 @@ const SignupForm: React.FC<ISignupFormProps> = ({
       <Button
         className="form_btn"
         variant="light"
-        onClick={handleHideSignupFormOnClick}
+        onClick={handleShowSigninFormOnClick}
         disabled={isLoading}
       >
         Anuluj

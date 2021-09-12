@@ -1,9 +1,19 @@
-import { useState } from "react";
+import { Component, useState } from "react";
 
-const useVisibility = <T>(initValue: T) => {
-  const [isVisible, setVisibility] = useState<T>(initValue);
+export interface IVisibility {
+  [key: string]: boolean;
+}
 
-  const handleVisibility = (value: T) => setVisibility(value);
+const useVisibility = <T extends IVisibility>(initValue: T) => {
+  const [isVisible, setVisibile] = useState<T>(initValue);
+
+  const handleVisibility = (component: string) =>
+    setVisibile((isVis) => {
+      const entries = Object.entries(isVis).map(([key, value]) =>
+        key === component ? [component, (value = true)] : [key, (value = false)]
+      );
+      return Object.fromEntries(entries);
+    });
 
   return [isVisible, handleVisibility] as const;
 };

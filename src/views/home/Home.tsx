@@ -1,13 +1,22 @@
 import React from "react";
-import useVisibility from "../../hooks/visibility/useVisibility";
-import { SigningContext } from "../../context/signing/SigningContext";
+import useVisibility, {
+  IVisibility,
+} from "../../hooks/visibility/useVisibility";
+import { ShowingFormContext } from "../../context/signing/ShowingFormContext";
 import Trail from "./components/trail/Trail";
 import Signup from "./components/signup/Signup";
 import Signin from "./components/signin/Signin";
+import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import "./home.css";
 
 const Home: React.FC = () => {
-  const [isSignupVisible, setSignupVisible] = useVisibility<boolean>(false);
+  const initFormVisibility = {
+    signinForm: true,
+    signupForm: false,
+    forgotPasswordForm: false,
+  };
+  const [isFormVisible, setFormVisibility] =
+    useVisibility<IVisibility>(initFormVisibility);
 
   return (
     <div className="home">
@@ -21,22 +30,30 @@ const Home: React.FC = () => {
         </Trail>
       </div>
       <div className="home__form">
-        {isSignupVisible ? (
-          <SigningContext.Provider
+        {isFormVisible.signupForm ? (
+          <ShowingFormContext.Provider
             value={{
-              showSignupForm: setSignupVisible,
+              showForm: setFormVisibility,
             }}
           >
             <Signup />
-          </SigningContext.Provider>
-        ) : (
-          <SigningContext.Provider
+          </ShowingFormContext.Provider>
+        ) : isFormVisible.signinForm ? (
+          <ShowingFormContext.Provider
             value={{
-              showSignupForm: setSignupVisible,
+              showForm: setFormVisibility,
             }}
           >
             <Signin />
-          </SigningContext.Provider>
+          </ShowingFormContext.Provider>
+        ) : (
+          <ShowingFormContext.Provider
+            value={{
+              showForm: setFormVisibility,
+            }}
+          >
+            <ForgotPassword />
+          </ShowingFormContext.Provider>
         )}
       </div>
       <div className="home__slogan">slogan</div>

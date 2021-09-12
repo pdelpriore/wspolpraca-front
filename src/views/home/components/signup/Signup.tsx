@@ -19,7 +19,7 @@ import { useMutation } from "@apollo/client";
 import getMutation from "./method/getMutation";
 import { capitalizeFirst } from "../../../../shared/capitalize";
 import showMessage from "../../../../shared/showMessage";
-import { SigningContext } from "../../../../context/signing/SigningContext";
+import { ShowingFormContext } from "../../../../context/signing/ShowingFormContext";
 import "./signup.css";
 
 const Signup: React.FC = () => {
@@ -33,7 +33,7 @@ const Signup: React.FC = () => {
   const [isLoading, setLoader] = useLoader<boolean>(false);
   const [tokenId, setTokenId] = useState<string>("");
 
-  const { showSignupForm } = useContext(SigningContext);
+  const { showForm } = useContext(ShowingFormContext);
 
   const mutation = getMutation(capitalizeFirst(input.usertype));
 
@@ -51,7 +51,7 @@ const Signup: React.FC = () => {
         try {
           await sendVerificationEmail(auth.currentUser as User);
 
-          showSignupForm(false);
+          showForm("signinForm");
 
           showMessage({
             title: "Rejestracja",
