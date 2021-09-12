@@ -33,7 +33,7 @@ const SignupForm: React.FC<ISignupFormProps> = ({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    showForm("signinForm");
+    showForm({ component: "signinForm" });
   };
 
   return (

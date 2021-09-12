@@ -32,7 +32,7 @@ const ForgotPassword: React.FC = () => {
       await resetPassword(auth, input.useremail);
 
       setLoader(false);
-      showForm("signinForm");
+      showForm({ component: "signinForm" });
 
       showMessage({
         title: "Reset hasła",

@@ -51,7 +51,7 @@ const Signup: React.FC = () => {
         try {
           await sendVerificationEmail(auth.currentUser as User);
 
-          showForm("signinForm");
+          showForm({ component: "signinForm" });
 
           showMessage({
             title: "Rejestracja",

@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useReactiveVar } from "@apollo/client";
 import { Toast, Fade } from "react-bootstrap";
+import useVisibility from "../../hooks/visibility/useVisibility";
 import showMessage from "../../shared/showMessage";
 import "./snackbar.css";
 
 const withSnackbar = (Component: React.FC) => () => {
   const { title, message, variant } = useReactiveVar(showMessage);
 
-  const [isToastVisible, setToastVisible] = useState<boolean>(false);
+  const [isToastVisible, setToastVisible] = useVisibility<boolean>(false);
 
   const handleHideToast = () => {
-    setToastVisible(false);
+    setToastVisible({ val: false });
     showMessage({});
   };
 
   useEffect(() => {
-    if (title && message) setToastVisible(true);
+    if (title && message) setToastVisible({ val: true });
   }, [title, message]);
 
   return (
@@ -41,3 +42,6 @@ const withSnackbar = (Component: React.FC) => () => {
 };
 
 export default withSnackbar;
+function _(_: any, arg1: boolean) {
+  throw new Error("Function not implemented.");
+}

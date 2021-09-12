@@ -26,14 +26,14 @@ const SigninForm: React.FC<ISigninFormProps> = ({
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
     e.preventDefault();
-    showForm("signupForm");
+    showForm({ component: "signupForm" });
   };
 
   const handleShowForgotPasswordFormOnClick = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
     e.preventDefault();
-    showForm("forgotPasswordForm");
+    showForm({ component: "forgotPasswordForm" });
   };
 
   return (

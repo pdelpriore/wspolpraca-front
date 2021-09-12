@@ -28,7 +28,7 @@ const ForgotPasswordForm: React.FC<IForgotPasswordFormProps> = ({
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
     e.preventDefault();
-    showForm("signinForm");
+    showForm({ component: "signinForm" });
   };
 
   return (
