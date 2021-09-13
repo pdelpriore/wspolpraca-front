@@ -49,10 +49,10 @@ const Signup: React.FC = () => {
     }) => {
       if (signupUser) {
         try {
+          setTokenId("");
           await sendVerificationEmail(auth.currentUser as User);
 
           showForm({ component: "signinForm" });
-
           showMessage({
             title: "Rejestracja",
             message: "Zarejestrowałeś się pomyślnie. Potwierdź swój email.",
