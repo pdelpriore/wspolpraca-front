@@ -42,6 +42,3 @@ const withSnackbar = (Component: React.FC) => () => {
 };
 
 export default withSnackbar;
-function _(_: any, arg1: boolean) {
-  throw new Error("Function not implemented.");
-}
