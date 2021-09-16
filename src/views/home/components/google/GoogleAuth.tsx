@@ -5,12 +5,14 @@ import {
   continueWithGoogle,
 } from "../../../../config/firebase/Firebase";
 import useLoader from "../../../../hooks/loader/useLoader";
+import getUserType from "./method/getUserType";
 import { Button, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
-const Google: React.FC = () => {
+const GoogleAuth: React.FC = () => {
   const [isLoading, setLoader] = useLoader<boolean>(false);
+  const [userType, setUserType] = useState<string>("");
   const [tokenId, setTokenId] = useState<string>("");
 
   const handleContinueWithGoogle = async (
@@ -19,6 +21,8 @@ const Google: React.FC = () => {
     e.preventDefault();
     try {
       setLoader(true);
+      // const user = await getUserType()
+      // setUserType(user)
       const credentials = await continueWithGoogle(auth, googleProvider);
       const idToken = await credentials.user.getIdToken();
 
@@ -39,4 +43,4 @@ const Google: React.FC = () => {
   );
 };
 
-export default Google;
+export default GoogleAuth;
