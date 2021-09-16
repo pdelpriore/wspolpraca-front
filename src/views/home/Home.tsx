@@ -7,6 +7,7 @@ import Trail from "./components/trail/Trail";
 import Signup from "./components/signup/Signup";
 import Signin from "./components/signin/Signin";
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
+import Google from "./components/google/Google";
 import "./home.css";
 
 const Home: React.FC = () => {
@@ -30,6 +31,7 @@ const Home: React.FC = () => {
         </Trail>
       </div>
       <div className="home__form">
+        <Google />
         {isFormVisible.signupForm ? (
           <ShowingFormContext.Provider
             value={{
