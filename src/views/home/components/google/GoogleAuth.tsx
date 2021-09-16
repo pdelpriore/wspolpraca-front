@@ -29,8 +29,10 @@ const GoogleAuth: React.FC = () => {
       setTokenId(idToken);
       setLoader(false);
     } catch (err) {
-      setLoader(false);
-      if (err) console.log(err);
+      if (err) {
+        setLoader(false);
+        console.log(err);
+      }
     }
   };
   return isLoading ? (
