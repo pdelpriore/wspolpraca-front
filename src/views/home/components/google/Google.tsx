@@ -21,9 +21,9 @@ const Google: React.FC = () => {
       setLoader(true);
       const credentials = await continueWithGoogle(auth, googleProvider);
       const idToken = await credentials.user.getIdToken();
-      setLoader(false);
 
       setTokenId(idToken);
+      setLoader(false);
     } catch (err) {
       setLoader(false);
       if (err) console.log(err);
