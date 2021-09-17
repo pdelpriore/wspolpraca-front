@@ -39,7 +39,7 @@ const GoogleAuth: React.FC = () => {
         credentials
       ) as AdditionalUserInfo;
 
-      // isNewUser ? signup : signin
+      // isNewUser ? signup && signin : signin
 
       setLoader(false);
     } catch (err) {
