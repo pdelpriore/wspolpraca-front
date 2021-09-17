@@ -5,6 +5,7 @@ import {
   continueWithGoogle,
   getUserAdditionalInfo,
 } from "../../../../config/firebase/Firebase";
+import { AdditionalUserInfo } from "@firebase/auth";
 import useLoader from "../../../../hooks/loader/useLoader";
 import getUserType from "./method/getUserType";
 import { Button, Spinner } from "react-bootstrap";
@@ -28,7 +29,9 @@ const GoogleAuth: React.FC = () => {
       const credentials = await continueWithGoogle(auth, googleProvider);
       const idToken = await credentials.user.getIdToken();
 
-      const isNewUser = getUserAdditionalInfo(credentials)?.isNewUser;
+      const { isNewUser } = getUserAdditionalInfo(
+        credentials
+      ) as AdditionalUserInfo;
 
       // isNewUser ? signup : signin
 
