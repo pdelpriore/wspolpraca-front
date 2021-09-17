@@ -6,6 +6,7 @@ import {
   sendPasswordResetEmail,
   GoogleAuthProvider,
   signInWithPopup,
+  getAdditionalUserInfo,
 } from "firebase/auth";
 
 const app = initializeApp({
@@ -23,3 +24,4 @@ export const sendVerificationEmail = sendEmailVerification;
 export const resetPassword = sendPasswordResetEmail;
 export const googleProvider = new GoogleAuthProvider();
 export const continueWithGoogle = signInWithPopup;
+export const getUserAdditionalInfo = getAdditionalUserInfo;

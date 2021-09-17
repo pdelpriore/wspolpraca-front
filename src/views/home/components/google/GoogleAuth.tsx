@@ -3,6 +3,7 @@ import {
   auth,
   googleProvider,
   continueWithGoogle,
+  getUserAdditionalInfo,
 } from "../../../../config/firebase/Firebase";
 import useLoader from "../../../../hooks/loader/useLoader";
 import getUserType from "./method/getUserType";
@@ -23,8 +24,13 @@ const GoogleAuth: React.FC = () => {
       setLoader(true);
       // const user = await getUserType()
       // setUserType(user)
+
       const credentials = await continueWithGoogle(auth, googleProvider);
       const idToken = await credentials.user.getIdToken();
+
+      const isNewUser = getUserAdditionalInfo(credentials)?.isNewUser;
+
+      // isNewUser ? signup : signin
 
       setTokenId(idToken);
       setLoader(false);
