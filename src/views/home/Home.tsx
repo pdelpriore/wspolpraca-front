@@ -2,6 +2,7 @@ import React from "react";
 import useVisibility, {
   IVisibility,
 } from "../../hooks/visibility/useVisibility";
+import withUserTypeSnackbar from "./components/userTypeSnackbar/withUserTypeSnackbar";
 import { ShowingFormContext } from "../../context/signing/ShowingFormContext";
 import Trail from "./components/trail/Trail";
 import Signup from "./components/signup/Signup";
@@ -63,4 +64,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default withUserTypeSnackbar(Home);

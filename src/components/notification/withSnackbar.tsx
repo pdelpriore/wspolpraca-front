@@ -8,16 +8,16 @@ import "./snackbar.css";
 const withSnackbar = (Component: React.FC) => () => {
   const { title, message, variant } = useReactiveVar(showMessage);
 
-  const [isToastVisible, setToastVisible] = useVisibility<boolean>(false);
+  const [isToastVisible, setToastVisibility] = useVisibility<boolean>(false);
 
   const handleHideToast = () => {
-    setToastVisible({ val: false });
+    setToastVisibility({ val: false });
     showMessage({});
   };
 
   useEffect(() => {
-    if (title && message) setToastVisible({ val: true });
-  }, [title, message]);
+    if (title && message) setToastVisibility({ val: true });
+  }, [title, message, setToastVisibility]);
 
   return (
     <div className="wrapper">

@@ -33,7 +33,7 @@ const ForgotPasswordForm: React.FC<IForgotPasswordFormProps> = ({
 
   return (
     <Form className="form" onSubmit={onSubmitForm}>
-      <Form.Group controlId="signinFormUserEmail">
+      <Form.Group controlId="forgotPasswordFormUserEmail">
         <Form.Label className="form__label">Email</Form.Label>
         <Form.Control
           className="form__control"

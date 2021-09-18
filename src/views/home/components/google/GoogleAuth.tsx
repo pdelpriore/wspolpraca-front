@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useImperativeHandle } from "react";
 import {
   auth,
   googleProvider,
   continueWithGoogle,
   getUserAdditionalInfo,
 } from "../../../../config/firebase/Firebase";
-import { AdditionalUserInfo } from "@firebase/auth";
+import { AdditionalUserInfo, User } from "@firebase/auth";
 import useLoader from "../../../../hooks/loader/useLoader";
-import getUserType from "./method/getUserType";
+import { UserTypeContext } from "../../context/UserTypeContext";
 import { Button, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
@@ -17,42 +17,45 @@ const GoogleAuth: React.FC = () => {
   const [userType, setUserType] = useState<string>("");
   const [tokenId, setTokenId] = useState<string>("");
 
-  const handleContinueWithGoogle = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
+  const continueGoogleSigning = async () => {
     try {
       setLoader(true);
-      // const user = await getUserType()
-      // setUserType(user)
-
       const credentials = await continueWithGoogle(auth, googleProvider);
 
-      const {
-        user: { displayName, email, photoURL, getIdToken },
-      } = credentials;
-
-      const idToken = await getIdToken();
+      const idToken = await credentials.user.getIdToken();
       setTokenId(idToken);
+
+      const { displayName, email, photoURL } = credentials.user as User;
 
       const { isNewUser } = getUserAdditionalInfo(
         credentials
       ) as AdditionalUserInfo;
 
       // isNewUser ? signup && signin : signin
-
       setLoader(false);
     } catch (err) {
-      if (err) {
-        setLoader(false);
-        console.log(err);
-      }
+      setLoader(false);
+      console.log(err);
     }
   };
+
+  const { user, ref, showUserTypeSnackbar } = useContext(UserTypeContext);
+
+  useImperativeHandle(ref, () => ({
+    googleAuthCallback: continueGoogleSigning,
+  }));
+
+  const handleShowUserTypeSnackbar = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    showUserTypeSnackbar({ val: true });
+  };
+
   return isLoading ? (
     <Spinner animation="border" size="sm" />
   ) : (
-    <Button variant="warning" onClick={handleContinueWithGoogle}>
+    <Button variant="warning" onClick={handleShowUserTypeSnackbar}>
       <FontAwesomeIcon icon={faGoogle} />
       Kontynuuj z Google
     </Button>
