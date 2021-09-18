@@ -14,12 +14,11 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 const GoogleAuth: React.FC = () => {
   const [isLoading, setLoader] = useLoader<boolean>(false);
-  const [userType, setUserType] = useState<string>("");
   const [tokenId, setTokenId] = useState<string>("");
 
-  const { user, ref, showUserTypeSnackbar } = useContext(UserTypeContext);
+  const { userType, ref, showUserTypeSnackbar } = useContext(UserTypeContext);
 
-  const continueGoogleSigning = async () => {
+  const signGoogleUser = async () => {
     try {
       setLoader(true);
       const credentials = await continueWithGoogle(auth, googleProvider);
@@ -42,7 +41,7 @@ const GoogleAuth: React.FC = () => {
   };
 
   useImperativeHandle(ref, () => ({
-    googleAuthCallback: continueGoogleSigning,
+    signGoogleUserCallback: signGoogleUser,
   }));
 
   const handleShowUserTypeSnackbar = (

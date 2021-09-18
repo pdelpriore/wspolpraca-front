@@ -6,7 +6,7 @@ import { IGoogleAuth } from "../components/userTypeSnackbar/withUserTypeSnackbar
 type TShowUserFormSnackbar = (params: IHandleVisibilityParams) => void;
 
 interface IUserTypeContext {
-  user: string;
+  userType: string;
   showUserTypeSnackbar: TShowUserFormSnackbar;
   ref: MutableRefObject<IGoogleAuth>;
 }

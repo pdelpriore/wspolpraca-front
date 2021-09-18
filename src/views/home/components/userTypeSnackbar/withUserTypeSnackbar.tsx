@@ -8,10 +8,10 @@ import UserTypeForm from "../form/userTypeForm/UserTypeForm";
 import { TUserTypeInput } from "../form/userTypeForm/type/userTypeInputType";
 import "./userTypeSnackbar.css";
 
-type TGoogleAuth = () => void;
+type TGoogleAuth = () => Promise<void>;
 
 export interface IGoogleAuth {
-  googleAuthCallback: TGoogleAuth;
+  signGoogleUserCallback: TGoogleAuth;
 }
 
 const withUserTypeSnackbar = (Component: React.FC) => () => {
@@ -32,9 +32,9 @@ const withUserTypeSnackbar = (Component: React.FC) => () => {
     setToastVisibility({ val: false });
   };
 
-  const handleOnSubmitUserTypeForm = (e: React.FormEvent) => {
+  const handleSubmitUserTypeForm = (e: React.FormEvent) => {
     e.preventDefault();
-    googleAuthRef.current?.googleAuthCallback();
+    googleAuthRef.current?.signGoogleUserCallback();
     setToastVisibility({ val: false });
   };
 
@@ -42,7 +42,7 @@ const withUserTypeSnackbar = (Component: React.FC) => () => {
     <div className="wrapper">
       <UserTypeContext.Provider
         value={{
-          user: input.usertype,
+          userType: input.usertype,
           ref: googleAuthRef as MutableRefObject<IGoogleAuth>,
           showUserTypeSnackbar: setToastVisibility,
         }}
@@ -63,7 +63,7 @@ const withUserTypeSnackbar = (Component: React.FC) => () => {
           <UserTypeForm
             input={input}
             onChangeInput={changeUserTypeInput}
-            onSubmitInput={handleOnSubmitUserTypeForm}
+            onSubmitInput={handleSubmitUserTypeForm}
             onCancelForm={handleCancelUserTypeForm}
             isSubmitButtonDisabled={Object.values(input).includes("")}
           />
