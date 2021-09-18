@@ -17,6 +17,8 @@ const GoogleAuth: React.FC = () => {
   const [userType, setUserType] = useState<string>("");
   const [tokenId, setTokenId] = useState<string>("");
 
+  const { user, ref, showUserTypeSnackbar } = useContext(UserTypeContext);
+
   const continueGoogleSigning = async () => {
     try {
       setLoader(true);
@@ -38,8 +40,6 @@ const GoogleAuth: React.FC = () => {
       console.log(err);
     }
   };
-
-  const { user, ref, showUserTypeSnackbar } = useContext(UserTypeContext);
 
   useImperativeHandle(ref, () => ({
     googleAuthCallback: continueGoogleSigning,
