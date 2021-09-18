@@ -50,9 +50,12 @@ const GoogleAuth: React.FC = () => {
     //   signGoogleUserCallback: signGoogleUser,
     // }));
     // showUserTypeSnackbar({ val: true })
+    // pass signup loading data status to the snackbar
     // signup is call from snackbar and
     // displayName, email; photoURL is passed to the backend
     // onCompleted signin is called
+    // pass sigin loading data status to the snackbar
+    // on signin data loaded close snackbar
   } else {
     // signin is called
   }
@@ -63,8 +66,6 @@ const GoogleAuth: React.FC = () => {
     e.preventDefault();
     signGoogleUser();
   };
-
-  // loading from useMutation will show the spinner
 
   return isLoading ? (
     <Spinner animation="border" size="sm" />
