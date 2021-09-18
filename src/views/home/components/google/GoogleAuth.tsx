@@ -5,7 +5,7 @@ import {
   continueWithGoogle,
   getUserAdditionalInfo,
 } from "../../../../config/firebase/Firebase";
-import { AdditionalUserInfo, User } from "@firebase/auth";
+import { AdditionalUserInfo, User, UserCredential } from "@firebase/auth";
 import useLoader from "../../../../hooks/loader/useLoader";
 import { UserTypeContext } from "../../context/UserTypeContext";
 import { Button, Spinner } from "react-bootstrap";
@@ -14,6 +14,10 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 const GoogleAuth: React.FC = () => {
   const [isLoading, setLoader] = useLoader<boolean>(false);
+
+  const [googleUserCredentials, setGoogleUserCredentials] =
+    useState<UserCredential>({} as UserCredential);
+
   const [tokenId, setTokenId] = useState<string>("");
 
   const { userType, ref, showUserTypeSnackbar } = useContext(UserTypeContext);
@@ -22,17 +26,11 @@ const GoogleAuth: React.FC = () => {
     try {
       setLoader(true);
       const credentials = await continueWithGoogle(auth, googleProvider);
+      setGoogleUserCredentials(credentials);
 
       const idToken = await credentials.user.getIdToken();
       setTokenId(idToken);
 
-      const { displayName, email, photoURL } = credentials.user as User;
-
-      const { isNewUser } = getUserAdditionalInfo(
-        credentials
-      ) as AdditionalUserInfo;
-
-      // isNewUser ? signup && signin : signin
       setLoader(false);
     } catch (err) {
       setLoader(false);
@@ -40,21 +38,42 @@ const GoogleAuth: React.FC = () => {
     }
   };
 
-  useImperativeHandle(ref, () => ({
-    signGoogleUserCallback: signGoogleUser,
-  }));
+  const { displayName, email, photoURL } = googleUserCredentials.user as User;
 
-  const handleShowUserTypeSnackbar = (
+  const { isNewUser } = getUserAdditionalInfo(
+    googleUserCredentials
+  ) as AdditionalUserInfo;
+
+  if (isNewUser) {
+    // pass signupUser instead of signGoogleUser
+    // useImperativeHandle(ref, () => ({
+    //   signGoogleUserCallback: signGoogleUser,
+    // }));
+    // showUserTypeSnackbar({ val: true })
+    // signup is call from snackbar and
+    // displayName, email; photoURL is passed to the backend
+    // onCompleted signin is called
+  } else {
+    // signin is called
+  }
+
+  const handleSignGoogleUser = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    showUserTypeSnackbar({ val: true });
+    signGoogleUser();
   };
+
+  // loading from useMutation will show the spinner
 
   return isLoading ? (
     <Spinner animation="border" size="sm" />
   ) : (
-    <Button variant="warning" onClick={handleShowUserTypeSnackbar}>
+    <Button
+      variant="warning"
+      onClick={handleSignGoogleUser}
+      disabled={Object.keys(googleUserCredentials).length > 0}
+    >
       <FontAwesomeIcon icon={faGoogle} />
       Kontynuuj z Google
     </Button>
