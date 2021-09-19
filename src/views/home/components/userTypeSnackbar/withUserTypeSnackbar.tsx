@@ -28,13 +28,6 @@ const withUserTypeSnackbar = (Component: React.FC) => () => {
   const [input, changeUserTypeInput] =
     useForm<TUserTypeInput>(userTypeInitInput);
 
-  const handleCancelUserTypeForm = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    setToastVisibility({ val: false });
-  };
-
   const handleSubmitUserTypeForm = (e: React.FormEvent) => {
     e.preventDefault();
     googleAuthRef.current?.signGoogleUserCallback();
@@ -75,7 +68,6 @@ const withUserTypeSnackbar = (Component: React.FC) => () => {
             input={input}
             onChangeInput={changeUserTypeInput}
             onSubmitInput={handleSubmitUserTypeForm}
-            onCancelForm={handleCancelUserTypeForm}
             isSubmitButtonDisabled={Object.values(input).includes("")}
             isLoading={isUserDataLoading}
           />

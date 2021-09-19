@@ -5,15 +5,11 @@ import "./userTypeForm.css";
 
 type TOnChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => void;
 type TOnSubmitInput = (e: React.FormEvent) => void;
-type TOnCancelForm = (
-  e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-) => void;
 
 interface IUserTypeFormProps {
   input: TUserTypeInput;
   onChangeInput: TOnChangeInput;
   onSubmitInput: TOnSubmitInput;
-  onCancelForm: TOnCancelForm;
   isSubmitButtonDisabled: boolean;
   isLoading: boolean;
 }
@@ -22,7 +18,6 @@ const UserTypeForm: React.FC<IUserTypeFormProps> = ({
   input,
   onChangeInput,
   onSubmitInput,
-  onCancelForm,
   isSubmitButtonDisabled,
   isLoading,
 }) => {
@@ -71,9 +66,6 @@ const UserTypeForm: React.FC<IUserTypeFormProps> = ({
           OK
         </Button>
       )}
-      <Button className="form_btn" variant="light" onClick={onCancelForm}>
-        Anuluj
-      </Button>
     </Form>
   );
 };
