@@ -95,7 +95,7 @@ const GoogleAuth: React.FC = () => {
         googleUserCredentials
       ) as AdditionalUserInfo;
 
-      if (isNewUser) {
+      if (userType.length > 0) {
         setHandleRef((ref) => ({
           ...ref,
           signGoogleUserCallback: () =>
@@ -110,10 +110,10 @@ const GoogleAuth: React.FC = () => {
               },
             }),
         }));
-
+      } else if (isNewUser) {
         showUserTypeSnackbar({ val: true });
       } else {
-        console.log("signin will be called");
+        console.log("signin will be called here");
       }
     }
   }, [googleUserCredentials, userType, signupUser, showUserTypeSnackbar]);
