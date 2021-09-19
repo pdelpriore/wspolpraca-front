@@ -39,8 +39,6 @@ const GoogleAuth: React.FC = () => {
     setIsUserSignedup,
   } = useContext(UserTypeContext);
 
-  const mutation = getMutation(capitalizeFirst(userType));
-
   const signGoogleUser = async () => {
     try {
       setLoader(true);
@@ -63,6 +61,8 @@ const GoogleAuth: React.FC = () => {
     e.preventDefault();
     signGoogleUser();
   };
+
+  const mutation = getMutation(capitalizeFirst(userType));
 
   const [signupUser, { loading, error }] = useMutation(mutation, {
     context: {
