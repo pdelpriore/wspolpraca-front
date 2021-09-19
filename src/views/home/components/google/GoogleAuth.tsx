@@ -75,8 +75,11 @@ const GoogleAuth: React.FC = () => {
       if (signupUser) {
         setGoogleUserCredentials({} as UserCredential);
         setHandleRef({} as IGoogleAuth);
+        // will be removed in the new implementation
         setIsUserSignedup(Object.keys(signupUser).length > 0);
         console.log("signin will be called");
+        // onCompleted userSingin
+        // setIsUserSignedup(Object.keys(signupUser).length > 0);
       }
     },
   });
