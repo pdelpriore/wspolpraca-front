@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Spinner } from "react-bootstrap";
 import { TUserTypeInput } from "./type/userTypeInputType";
 import "./userTypeForm.css";
 
@@ -15,6 +15,7 @@ interface IUserTypeFormProps {
   onSubmitInput: TOnSubmitInput;
   onCancelForm: TOnCancelForm;
   isSubmitButtonDisabled: boolean;
+  isLoading: boolean;
 }
 
 const UserTypeForm: React.FC<IUserTypeFormProps> = ({
@@ -23,6 +24,7 @@ const UserTypeForm: React.FC<IUserTypeFormProps> = ({
   onSubmitInput,
   onCancelForm,
   isSubmitButtonDisabled,
+  isLoading,
 }) => {
   const formOptions = {
     optionValues: ["youtuber", "brand"],
@@ -58,13 +60,17 @@ const UserTypeForm: React.FC<IUserTypeFormProps> = ({
           })}
         </Form.Control>
       </Form.Group>
-      <Button
-        type="submit"
-        className="form_btn"
-        disabled={isSubmitButtonDisabled}
-      >
-        OK
-      </Button>
+      {isLoading ? (
+        <Spinner animation="border" size="sm" />
+      ) : (
+        <Button
+          type="submit"
+          className="form_btn"
+          disabled={isSubmitButtonDisabled}
+        >
+          OK
+        </Button>
+      )}
       <Button className="form_btn" variant="light" onClick={onCancelForm}>
         Anuluj
       </Button>

@@ -1,14 +1,15 @@
-import React, { useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MutableRefObject } from "react";
 import { Toast, Fade } from "react-bootstrap";
 import { UserTypeContext } from "../../context/UserTypeContext";
 import useForm from "../../../../hooks/form/useForm";
 import useVisibility from "../../../../hooks/visibility/useVisibility";
+import useLoader from "../../../../hooks/loader/useLoader";
 import UserTypeForm from "../form/userTypeForm/UserTypeForm";
 import { TUserTypeInput } from "../form/userTypeForm/type/userTypeInputType";
 import "./userTypeSnackbar.css";
 
-type TGoogleAuth = () => Promise<void>;
+type TGoogleAuth = () => void;
 
 export interface IGoogleAuth {
   signGoogleUserCallback: TGoogleAuth;
@@ -16,6 +17,8 @@ export interface IGoogleAuth {
 
 const withUserTypeSnackbar = (Component: React.FC) => () => {
   const [isToastVisible, setToastVisibility] = useVisibility<boolean>(false);
+  const [isUserDataLoading, setLoader] = useLoader<boolean>(false);
+  const [isUserSignedup, setUserSignedup] = useState<boolean>(false);
 
   const googleAuthRef = useRef<IGoogleAuth>();
 
@@ -35,8 +38,14 @@ const withUserTypeSnackbar = (Component: React.FC) => () => {
   const handleSubmitUserTypeForm = (e: React.FormEvent) => {
     e.preventDefault();
     googleAuthRef.current?.signGoogleUserCallback();
-    setToastVisibility({ val: false });
   };
+
+  const handleLoadingUserData = (value: boolean) => setLoader(value);
+  const handleUserSignedup = (value: boolean) => setUserSignedup(value);
+
+  useEffect(() => {
+    if (isUserSignedup) setToastVisibility({ val: false });
+  }, [isUserSignedup, setToastVisibility]);
 
   return (
     <div className="wrapper">
@@ -45,6 +54,8 @@ const withUserTypeSnackbar = (Component: React.FC) => () => {
           userType: input.usertype,
           ref: googleAuthRef as MutableRefObject<IGoogleAuth>,
           showUserTypeSnackbar: setToastVisibility,
+          setSnackbarLoader: handleLoadingUserData,
+          setIsUserSignedup: handleUserSignedup,
         }}
       >
         <Component />
@@ -66,6 +77,7 @@ const withUserTypeSnackbar = (Component: React.FC) => () => {
             onSubmitInput={handleSubmitUserTypeForm}
             onCancelForm={handleCancelUserTypeForm}
             isSubmitButtonDisabled={Object.values(input).includes("")}
+            isLoading={isUserDataLoading}
           />
         </Toast.Body>
       </Toast>

@@ -1,16 +1,25 @@
-import React, { useState, useContext, useImperativeHandle } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useImperativeHandle,
+} from "react";
 import {
   auth,
   googleProvider,
   continueWithGoogle,
   getUserAdditionalInfo,
 } from "../../../../config/firebase/Firebase";
+import { useMutation } from "@apollo/client";
 import { AdditionalUserInfo, User, UserCredential } from "@firebase/auth";
+import { IGoogleAuth } from "../userTypeSnackbar/withUserTypeSnackbar";
 import useLoader from "../../../../hooks/loader/useLoader";
 import { UserTypeContext } from "../../context/UserTypeContext";
 import { Button, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import getMutation from "../signup/method/getMutation";
+import { capitalizeFirst } from "../../../../shared/capitalize";
 
 const GoogleAuth: React.FC = () => {
   const [isLoading, setLoader] = useLoader<boolean>(false);
@@ -18,9 +27,19 @@ const GoogleAuth: React.FC = () => {
   const [googleUserCredentials, setGoogleUserCredentials] =
     useState<UserCredential>({} as UserCredential);
 
+  const [handleRef, setHandleRef] = useState<IGoogleAuth>({} as IGoogleAuth);
+
   const [tokenId, setTokenId] = useState<string>("");
 
-  const { userType, ref, showUserTypeSnackbar } = useContext(UserTypeContext);
+  const {
+    userType,
+    ref,
+    showUserTypeSnackbar,
+    setSnackbarLoader,
+    setIsUserSignedup,
+  } = useContext(UserTypeContext);
+
+  const mutation = getMutation(capitalizeFirst(userType));
 
   const signGoogleUser = async () => {
     try {
@@ -38,34 +57,67 @@ const GoogleAuth: React.FC = () => {
     }
   };
 
-  const { displayName, email, photoURL } = googleUserCredentials.user as User;
-
-  const { isNewUser } = getUserAdditionalInfo(
-    googleUserCredentials
-  ) as AdditionalUserInfo;
-
-  if (isNewUser) {
-    // pass signupUser instead of signGoogleUser
-    // useImperativeHandle(ref, () => ({
-    //   signGoogleUserCallback: signGoogleUser,
-    // }));
-    // showUserTypeSnackbar({ val: true })
-    // pass signup loading data status to the snackbar
-    // signup is call from snackbar and
-    // displayName, email; photoURL is passed to the backend
-    // onCompleted signin is called
-    // pass sigin loading data status to the snackbar
-    // on signin data loaded close snackbar
-  } else {
-    // signin is called
-  }
-
   const handleSignGoogleUser = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     signGoogleUser();
   };
+
+  const [signupUser, { loading, error }] = useMutation(mutation, {
+    context: {
+      headers: {
+        "x-auth": tokenId,
+        "Content-Type": "application/json",
+      },
+    },
+    onCompleted: ({ [`signup${capitalizeFirst(userType)}`]: signupUser }) => {
+      if (signupUser) {
+        setGoogleUserCredentials({} as UserCredential);
+        setHandleRef({} as IGoogleAuth);
+        setIsUserSignedup(Object.keys(signupUser).length > 0);
+        console.log("signin will be called");
+      }
+    },
+  });
+
+  useImperativeHandle(ref, () => handleRef!, [handleRef]);
+
+  useEffect(() => {
+    if (Object.keys(googleUserCredentials).length > 0) {
+      const { displayName, email, photoURL } =
+        googleUserCredentials.user as User;
+
+      const { isNewUser } = getUserAdditionalInfo(
+        googleUserCredentials
+      ) as AdditionalUserInfo;
+
+      if (isNewUser) {
+        setHandleRef((ref) => ({
+          ...ref,
+          signGoogleUserCallback: () =>
+            signupUser({
+              variables: {
+                [`signup${capitalizeFirst(userType)}Data`]: {
+                  userType: userType,
+                  name: displayName,
+                  email: email,
+                  picture: photoURL,
+                },
+              },
+            }),
+        }));
+
+        showUserTypeSnackbar({ val: true });
+      } else {
+        console.log("signin will be called");
+      }
+    }
+  }, [googleUserCredentials, userType, signupUser, showUserTypeSnackbar]);
+
+  useEffect(() => {
+    setSnackbarLoader(loading);
+  }, [loading, setSnackbarLoader]);
 
   return isLoading ? (
     <Spinner animation="border" size="sm" />
