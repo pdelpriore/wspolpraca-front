@@ -27,6 +27,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import getSignupMutation from "../signup/method/getSignupMutation";
 import getSigninMutation from "../signin/method/getSigninMutation";
+import { IUser, IUserParams } from "./types/GoogleAuthTypes";
+import { TUserSignin, ISigninVariables } from "../signin/types/SigninTypes";
 import { capitalizeFirst } from "../../../../shared/capitalize";
 
 const GoogleAuth: React.FC = () => {
@@ -77,7 +79,10 @@ const GoogleAuth: React.FC = () => {
   const signupMutation = getSignupMutation(capitalizeFirst(userType));
 
   const [signinUser, { ["loading"]: signinLoading, ["error"]: signinError }] =
-    useMutation(signinMutation, {
+    useMutation<
+      { signinYoutuber: IUser } | { signinBrand: IUser },
+      { signinYoutuberData: IUserParams } | { signinBrandData: IUserParams }
+    >(signinMutation, {
       context: {
         headers: {
           "x-auth": tokenId,
@@ -85,7 +90,7 @@ const GoogleAuth: React.FC = () => {
         },
       },
       onCompleted: async ({
-        [`signin${capitalizeFirst(userType)}`]: signinUser,
+        [`signin${capitalizeFirst(userType)}` as keyof TUserSignin]: signinUser,
       }) => {
         if (signinUser) {
           await userSignout(auth);
@@ -109,7 +114,9 @@ const GoogleAuth: React.FC = () => {
           setHandleRef({} as IGoogleAuth);
           signinUser({
             variables: {
-              [`signin${capitalizeFirst(userType)}Data`]: {
+              [`signin${capitalizeFirst(
+                userType
+              )}Data` as keyof ISigninVariables]: {
                 email: userEmail,
               },
             },
