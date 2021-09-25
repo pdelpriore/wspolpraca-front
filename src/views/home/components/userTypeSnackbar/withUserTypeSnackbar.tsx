@@ -54,7 +54,7 @@ const withUserTypeSnackbar = (Component: React.FC) => () => {
         <Component />
       </UserTypeContext.Provider>
       <Toast
-        //className="wrapper_toast"
+        className="wrapper_toast"
         show={isToastVisible}
         bg="light"
         animation
