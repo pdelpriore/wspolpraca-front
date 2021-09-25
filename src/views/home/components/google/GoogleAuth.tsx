@@ -59,8 +59,6 @@ const GoogleAuth: React.FC = () => {
       const idToken = await credentials.user.getIdToken();
       setTokenId(idToken);
 
-      await userSignout(auth);
-
       setLoader(false);
     } catch (err) {
       setLoader(false);
@@ -86,8 +84,11 @@ const GoogleAuth: React.FC = () => {
           "Content-Type": "application/json",
         },
       },
-      onCompleted: ({ [`signin${capitalizeFirst(userType)}`]: signinUser }) => {
+      onCompleted: async ({
+        [`signin${capitalizeFirst(userType)}`]: signinUser,
+      }) => {
         if (signinUser) {
+          await userSignout(auth);
           setIsUserCreated(Object.keys(signinUser).length > 0);
           console.log("user logged in");
         }
