@@ -32,14 +32,13 @@ import { capitalizeFirst } from "../../../../shared/capitalize";
 const GoogleAuth: React.FC = () => {
   const [isLoading, setLoader] = useLoader<boolean>(false);
 
+  const [tokenId, setTokenId] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string>("");
+
   const [googleUserCredentials, setGoogleUserCredentials] =
     useState<UserCredential>({} as UserCredential);
 
   const [handleRef, setHandleRef] = useState<IGoogleAuth>({} as IGoogleAuth);
-
-  const [tokenId, setTokenId] = useState<string>("");
-
-  const [userEmail, setUserEmail] = useState<string>("");
 
   const {
     userType,
