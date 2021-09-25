@@ -16,7 +16,7 @@ import {
 import { User } from "@firebase/auth";
 import { FirebaseError } from "@firebase/util";
 import { useMutation } from "@apollo/client";
-import getMutation from "./method/getMutation";
+import getSignupMutation from "./method/getSignupMutation";
 import { capitalizeFirst } from "../../../../shared/capitalize";
 import showMessage from "../../../../shared/showMessage";
 import { ShowingFormContext } from "../../../../context/signing/ShowingFormContext";
@@ -35,9 +35,9 @@ const Signup: React.FC = () => {
 
   const { showForm } = useContext(ShowingFormContext);
 
-  const mutation = getMutation(capitalizeFirst(input.usertype));
+  const signupMutation = getSignupMutation(capitalizeFirst(input.usertype));
 
-  const [signupUser, { loading, error }] = useMutation(mutation, {
+  const [signupUser, { loading, error }] = useMutation(signupMutation, {
     context: {
       headers: {
         "x-auth": tokenId,

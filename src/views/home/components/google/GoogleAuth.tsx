@@ -9,16 +9,24 @@ import {
   googleProvider,
   continueWithGoogle,
   getUserAdditionalInfo,
+  setUserPersistence,
+  userSignout,
 } from "../../../../config/firebase/Firebase";
 import { useMutation } from "@apollo/client";
-import { AdditionalUserInfo, User, UserCredential } from "@firebase/auth";
+import {
+  AdditionalUserInfo,
+  User,
+  UserCredential,
+  inMemoryPersistence,
+} from "@firebase/auth";
 import { IGoogleAuth } from "../userTypeSnackbar/withUserTypeSnackbar";
 import useLoader from "../../../../hooks/loader/useLoader";
 import { UserTypeContext } from "../../context/UserTypeContext";
 import { Button, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import getMutation from "../signup/method/getMutation";
+import getSignupMutation from "../signup/method/getSignupMutation";
+import getSigninMutation from "../signin/method/getSigninMutation";
 import { capitalizeFirst } from "../../../../shared/capitalize";
 
 const GoogleAuth: React.FC = () => {
@@ -31,22 +39,28 @@ const GoogleAuth: React.FC = () => {
 
   const [tokenId, setTokenId] = useState<string>("");
 
+  const [userEmail, setUserEmail] = useState<string>("");
+
   const {
     userType,
     ref,
     showUserTypeSnackbar,
-    setSnackbarLoader,
-    setIsUserSignedup,
+    setUserDataLoader,
+    setIsUserCreated,
   } = useContext(UserTypeContext);
 
   const signGoogleUser = async () => {
     try {
       setLoader(true);
+      await setUserPersistence(auth, inMemoryPersistence);
+
       const credentials = await continueWithGoogle(auth, googleProvider);
       setGoogleUserCredentials(credentials);
 
       const idToken = await credentials.user.getIdToken();
       setTokenId(idToken);
+
+      await userSignout(auth);
 
       setLoader(false);
     } catch (err) {
@@ -62,27 +76,47 @@ const GoogleAuth: React.FC = () => {
     signGoogleUser();
   };
 
-  const mutation = getMutation(capitalizeFirst(userType));
+  const signinMutation = getSigninMutation(capitalizeFirst(userType));
+  const signupMutation = getSignupMutation(capitalizeFirst(userType));
 
-  const [signupUser, { loading, error }] = useMutation(mutation, {
-    context: {
-      headers: {
-        "x-auth": tokenId,
-        "Content-Type": "application/json",
+  const [signinUser, { ["loading"]: signinLoading, ["error"]: signinError }] =
+    useMutation(signinMutation, {
+      context: {
+        headers: {
+          "x-auth": tokenId,
+          "Content-Type": "application/json",
+        },
       },
-    },
-    onCompleted: ({ [`signup${capitalizeFirst(userType)}`]: signupUser }) => {
-      if (signupUser) {
-        setGoogleUserCredentials({} as UserCredential);
-        setHandleRef({} as IGoogleAuth);
-        // will be removed in the new implementation
-        setIsUserSignedup(Object.keys(signupUser).length > 0);
-        console.log("signin will be called");
-        // onCompleted userSingin
-        // setIsUserSignedup(Object.keys(signupUser).length > 0);
-      }
-    },
-  });
+      onCompleted: ({ [`signin${capitalizeFirst(userType)}`]: signinUser }) => {
+        if (signinUser) {
+          setIsUserCreated(Object.keys(signinUser).length > 0);
+          console.log("user logged in");
+        }
+      },
+    });
+
+  const [signupUser, { ["loading"]: signupLoading, ["error"]: signupError }] =
+    useMutation(signupMutation, {
+      context: {
+        headers: {
+          "x-auth": tokenId,
+          "Content-Type": "application/json",
+        },
+      },
+      onCompleted: ({ [`signup${capitalizeFirst(userType)}`]: signupUser }) => {
+        if (signupUser) {
+          setGoogleUserCredentials({} as UserCredential);
+          setHandleRef({} as IGoogleAuth);
+          signinUser({
+            variables: {
+              [`signin${capitalizeFirst(userType)}Data`]: {
+                email: userEmail,
+              },
+            },
+          });
+        }
+      },
+    });
 
   useImperativeHandle(ref, () => handleRef!, [handleRef]);
 
@@ -94,6 +128,8 @@ const GoogleAuth: React.FC = () => {
       const { isNewUser } = getUserAdditionalInfo(
         googleUserCredentials
       ) as AdditionalUserInfo;
+
+      if (!userEmail) setUserEmail(email as string);
 
       if (userType.length > 0) {
         setHandleRef((ref) => ({
@@ -116,11 +152,18 @@ const GoogleAuth: React.FC = () => {
         console.log("signin will be called here");
       }
     }
-  }, [googleUserCredentials, userType, signupUser, showUserTypeSnackbar]);
+  }, [
+    googleUserCredentials,
+    userType,
+    userEmail,
+    signupUser,
+    showUserTypeSnackbar,
+  ]);
 
   useEffect(() => {
-    setSnackbarLoader(loading);
-  }, [loading, setSnackbarLoader]);
+    setUserDataLoader(signupLoading);
+    setUserDataLoader(signinLoading);
+  }, [signupLoading, signinLoading, setUserDataLoader]);
 
   return isLoading ? (
     <Spinner animation="border" size="sm" />

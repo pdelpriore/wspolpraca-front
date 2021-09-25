@@ -7,6 +7,8 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   getAdditionalUserInfo,
+  setPersistence,
+  signOut,
 } from "firebase/auth";
 
 const app = initializeApp({
@@ -25,3 +27,5 @@ export const resetPassword = sendPasswordResetEmail;
 export const googleProvider = new GoogleAuthProvider();
 export const continueWithGoogle = signInWithPopup;
 export const getUserAdditionalInfo = getAdditionalUserInfo;
+export const setUserPersistence = setPersistence;
+export const userSignout = signOut;

@@ -10,8 +10,8 @@ interface IUserTypeContext {
   userType: string;
   ref: MutableRefObject<IGoogleAuth>;
   showUserTypeSnackbar: TShowUserFormSnackbar;
-  setSnackbarLoader: TSettingValue;
-  setIsUserSignedup: TSettingValue;
+  setUserDataLoader: TSettingValue;
+  setIsUserCreated: TSettingValue;
 }
 
 export const UserTypeContext = createContext({} as IUserTypeContext);

@@ -18,7 +18,7 @@ export interface IGoogleAuth {
 const withUserTypeSnackbar = (Component: React.FC) => () => {
   const [isToastVisible, setToastVisibility] = useVisibility<boolean>(false);
   const [isUserDataLoading, setLoader] = useLoader<boolean>(false);
-  const [isUserSignedup, setUserSignedup] = useState<boolean>(false);
+  const [isUserCreated, setIsUserCreated] = useState<boolean>(false);
 
   const googleAuthRef = useRef<IGoogleAuth>();
 
@@ -34,11 +34,11 @@ const withUserTypeSnackbar = (Component: React.FC) => () => {
   };
 
   const handleLoadingUserData = (value: boolean) => setLoader(value);
-  const handleUserSignedup = (value: boolean) => setUserSignedup(value);
+  const handleUserCreation = (value: boolean) => setIsUserCreated(value);
 
   useEffect(() => {
-    if (isUserSignedup) setToastVisibility({ val: false });
-  }, [isUserSignedup, setToastVisibility]);
+    if (isUserCreated) setToastVisibility({ val: false });
+  }, [isUserCreated, setToastVisibility]);
 
   return (
     <div className="wrapper">
@@ -47,14 +47,14 @@ const withUserTypeSnackbar = (Component: React.FC) => () => {
           userType: input.usertype,
           ref: googleAuthRef as MutableRefObject<IGoogleAuth>,
           showUserTypeSnackbar: setToastVisibility,
-          setSnackbarLoader: handleLoadingUserData,
-          setIsUserSignedup: handleUserSignedup,
+          setUserDataLoader: handleLoadingUserData,
+          setIsUserCreated: handleUserCreation,
         }}
       >
         <Component />
       </UserTypeContext.Provider>
       <Toast
-        className="wrapper_toast"
+        //className="wrapper_toast"
         show={isToastVisible}
         bg="light"
         animation
