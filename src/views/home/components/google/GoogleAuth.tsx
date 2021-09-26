@@ -107,8 +107,10 @@ const GoogleAuth: React.FC = () => {
       }) => {
         if (signinUser) {
           await userSignout(auth);
+
           localStorage.setItem("user", JSON.stringify(signinUser));
           setIsUserCreated(Object.keys(signinUser).length > 0);
+
           history.push("/main");
           console.log("user logged in");
         }
@@ -181,6 +183,8 @@ const GoogleAuth: React.FC = () => {
       } else if (isNewUser) {
         showUserTypeSnackbar({ val: true });
       } else {
+        // TO DO :
+        // read userType from Firestore (by known userID)
         signinUser({
           variables: {
             [`signin${capitalizeFirst(
