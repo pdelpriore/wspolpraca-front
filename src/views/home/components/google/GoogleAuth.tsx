@@ -27,8 +27,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import getSignupMutation from "../signup/method/getSignupMutation";
 import getSigninMutation from "../signin/method/getSigninMutation";
-import { IUser, IUserParams } from "./types/GoogleAuthTypes";
-import { TUserSignin, ISigninVariables } from "../signin/types/SigninTypes";
+import { IUser } from "../shared/types/user/UserType";
+import {
+  TUserSignin,
+  IUserSigninParams,
+  ISigninVariables,
+} from "../signin/types/SigninTypes";
+import {
+  TUserSignup,
+  IUserSignupParams,
+  ISignupVariables,
+} from "../signup/types/SignupTypes";
 import { capitalizeFirst } from "../../../../shared/capitalize";
 
 const GoogleAuth: React.FC = () => {
@@ -81,7 +90,8 @@ const GoogleAuth: React.FC = () => {
   const [signinUser, { ["loading"]: signinLoading, ["error"]: signinError }] =
     useMutation<
       { signinYoutuber: IUser } | { signinBrand: IUser },
-      { signinYoutuberData: IUserParams } | { signinBrandData: IUserParams }
+      | { signinYoutuberData?: IUserSigninParams }
+      | { signinBrandData?: IUserSigninParams }
     >(signinMutation, {
       context: {
         headers: {
@@ -101,14 +111,20 @@ const GoogleAuth: React.FC = () => {
     });
 
   const [signupUser, { ["loading"]: signupLoading, ["error"]: signupError }] =
-    useMutation(signupMutation, {
+    useMutation<
+      { signupYoutuber: IUser } | { signupBrand: IUser },
+      | { signupYoutuberData?: IUserSignupParams }
+      | { signupBrandData?: IUserSignupParams }
+    >(signupMutation, {
       context: {
         headers: {
           "x-auth": tokenId,
           "Content-Type": "application/json",
         },
       },
-      onCompleted: ({ [`signup${capitalizeFirst(userType)}`]: signupUser }) => {
+      onCompleted: ({
+        [`signup${capitalizeFirst(userType)}` as keyof TUserSignup]: signupUser,
+      }) => {
         if (signupUser) {
           setGoogleUserCredentials({} as UserCredential);
           setHandleRef({} as IGoogleAuth);
@@ -144,11 +160,13 @@ const GoogleAuth: React.FC = () => {
           signGoogleUserCallback: () =>
             signupUser({
               variables: {
-                [`signup${capitalizeFirst(userType)}Data`]: {
-                  userType: userType,
-                  name: displayName,
-                  email: email,
-                  picture: photoURL,
+                [`signup${capitalizeFirst(
+                  userType
+                )}Data` as keyof ISignupVariables]: {
+                  userType: userType as string,
+                  name: displayName as string,
+                  email: email as string,
+                  picture: photoURL as string,
                 },
               },
             }),
@@ -156,7 +174,15 @@ const GoogleAuth: React.FC = () => {
       } else if (isNewUser) {
         showUserTypeSnackbar({ val: true });
       } else {
-        console.log("signin will be called here");
+        signinUser({
+          variables: {
+            [`signin${capitalizeFirst(
+              userType
+            )}Data` as keyof ISigninVariables]: {
+              email: email as string,
+            },
+          },
+        });
       }
     }
   }, [

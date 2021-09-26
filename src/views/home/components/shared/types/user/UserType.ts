@@ -5,7 +5,3 @@ export interface IUser {
   email: string;
   picture: string;
 }
-
-export interface IUserParams {
-  email: string;
-}
