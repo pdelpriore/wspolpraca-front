@@ -186,6 +186,10 @@ const GoogleAuth: React.FC = () => {
         // set in useState
         // and pass to signinUser below
         // change if logic here
+
+        // move signinUser to the separate useEffect
+        // if fetchedUserType
+        // call signinUser
         signinUser({
           variables: {
             [`signin${capitalizeFirst(
