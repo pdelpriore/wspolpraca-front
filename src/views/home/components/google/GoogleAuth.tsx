@@ -112,7 +112,6 @@ const GoogleAuth: React.FC = () => {
           setIsUserCreated(Object.keys(signinUser).length > 0);
 
           history.push("/main");
-          console.log("user logged in");
         }
       },
     });
