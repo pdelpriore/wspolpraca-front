@@ -10,7 +10,7 @@
   bottom: 5vh;
   left: 50%;
   transform: translateX(-50%);
-  width: 100vw;
+  max-width: 80vw;
   height: 8vh;
   padding: 0 20vw;
 }

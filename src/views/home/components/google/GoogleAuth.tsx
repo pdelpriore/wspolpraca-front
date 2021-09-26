@@ -4,6 +4,7 @@ import React, {
   useContext,
   useImperativeHandle,
 } from "react";
+import { useHistory } from "react-router-dom";
 import {
   auth,
   googleProvider,
@@ -59,6 +60,8 @@ const GoogleAuth: React.FC = () => {
     setIsUserCreated,
   } = useContext(UserTypeContext);
 
+  const history = useHistory();
+
   const signGoogleUser = async () => {
     try {
       setLoader(true);
@@ -104,7 +107,9 @@ const GoogleAuth: React.FC = () => {
       }) => {
         if (signinUser) {
           await userSignout(auth);
+          localStorage.setItem("user", JSON.stringify(signinUser));
           setIsUserCreated(Object.keys(signinUser).length > 0);
+          history.push("/main");
           console.log("user logged in");
         }
       },
@@ -126,6 +131,8 @@ const GoogleAuth: React.FC = () => {
         [`signup${capitalizeFirst(userType)}` as keyof TUserSignup]: signupUser,
       }) => {
         if (signupUser) {
+          // TO DO :
+          // add userID and userType to the Firestore
           setGoogleUserCredentials({} as UserCredential);
           setHandleRef({} as IGoogleAuth);
           signinUser({
@@ -189,6 +196,7 @@ const GoogleAuth: React.FC = () => {
     googleUserCredentials,
     userType,
     userEmail,
+    signinUser,
     signupUser,
     showUserTypeSnackbar,
   ]);
