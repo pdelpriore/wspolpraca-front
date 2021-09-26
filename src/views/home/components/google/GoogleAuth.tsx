@@ -133,8 +133,6 @@ const GoogleAuth: React.FC = () => {
         [`signup${capitalizeFirst(userType)}` as keyof TUserSignup]: signupUser,
       }) => {
         if (signupUser) {
-          // TO DO :
-          // add userID and userType to the Firestore
           setGoogleUserCredentials({} as UserCredential);
           setHandleRef({} as IGoogleAuth);
           signinUser({
@@ -184,7 +182,10 @@ const GoogleAuth: React.FC = () => {
         showUserTypeSnackbar({ val: true });
       } else {
         // TO DO :
-        // read userType from Firestore (by known userID)
+        // get userType from backend by email
+        // set in useState
+        // and pass to signinUser below
+        // change if logic here
         signinUser({
           variables: {
             [`signin${capitalizeFirst(
