@@ -14,6 +14,7 @@ import {
   userSignout,
 } from "../../../../config/firebase/Firebase";
 import { useMutation } from "@apollo/client";
+import { client } from "../../../../config/apollo/client/ApolloClient";
 import {
   AdditionalUserInfo,
   User,
@@ -107,6 +108,7 @@ const GoogleAuth: React.FC = () => {
       }) => {
         if (signinUser) {
           await userSignout(auth);
+          client.resetStore();
 
           localStorage.setItem("user", JSON.stringify(signinUser));
           setIsUserCreated(Object.keys(signinUser).length > 0);
