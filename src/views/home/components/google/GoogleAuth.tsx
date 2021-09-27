@@ -228,7 +228,7 @@ const GoogleAuth: React.FC = () => {
     setUserDataLoader(signinLoading);
   }, [signupLoading, signinLoading, setUserDataLoader]);
 
-  return isLoading ? (
+  return isLoading || loading ? (
     <Spinner animation="border" size="sm" />
   ) : (
     <Button
