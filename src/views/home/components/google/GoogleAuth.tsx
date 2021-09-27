@@ -205,7 +205,7 @@ const GoogleAuth: React.FC = () => {
   ]);
 
   useEffect(() => {
-    if (data?.getUserType?.userType && userEmail) {
+    if (data?.getUserType.userType && userEmail) {
       signinUser({
         variables: {
           [`signin${capitalizeFirst(
@@ -217,9 +217,6 @@ const GoogleAuth: React.FC = () => {
       });
     }
   }, [data, userEmail, signinUser]);
-
-  console.log(userEmail);
-  console.log(data?.getUserType?.userType);
 
   useEffect(() => {
     setUserDataLoader(signupLoading);
