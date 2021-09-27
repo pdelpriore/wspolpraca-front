@@ -178,7 +178,7 @@ const GoogleAuth: React.FC = () => {
         googleUserCredentials
       ) as AdditionalUserInfo;
 
-      if (!userEmail) setUserEmail(email as string);
+      if (userEmail.length === 0) setUserEmail(email as string);
 
       if (userType.length > 0) {
         setHandleRef((ref) => ({
