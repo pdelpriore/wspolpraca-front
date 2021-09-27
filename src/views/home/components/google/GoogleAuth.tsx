@@ -89,12 +89,6 @@ const GoogleAuth: React.FC = () => {
     signGoogleUser();
   };
 
-  // TODO :
-  // signin mutation for data?.getUserType.userType
-
-  const signinMutation = getSigninMutation(capitalizeFirst(userType));
-  const signupMutation = getSignupMutation(capitalizeFirst(userType));
-
   const [getUserType, { loading, error, data }] = useLazyQuery(GET_USER_TYPE, {
     context: {
       headers: {
@@ -104,9 +98,10 @@ const GoogleAuth: React.FC = () => {
     },
   });
 
-  // TODO :
-  // pass mutation for data?.getUserType.userType
-  // or create new useMutation for data?.getUserType.userType
+  const signinMutation = getSigninMutation(
+    capitalizeFirst(userType || data?.getUserType.userType)
+  );
+  const signupMutation = getSignupMutation(capitalizeFirst(userType));
 
   const [signinUser, { ["loading"]: signinLoading, ["error"]: signinError }] =
     useMutation<
@@ -121,7 +116,9 @@ const GoogleAuth: React.FC = () => {
         },
       },
       onCompleted: async ({
-        [`signin${capitalizeFirst(userType)}` as keyof TUserSignin]: signinUser,
+        [`signin${capitalizeFirst(
+          userType || data?.getUserType.userType
+        )}` as keyof TUserSignin]: signinUser,
       }) => {
         if (signinUser) {
           await userSignout(auth);
@@ -208,6 +205,7 @@ const GoogleAuth: React.FC = () => {
     userEmail,
     signinUser,
     signupUser,
+    getUserType,
     showUserTypeSnackbar,
   ]);
 
