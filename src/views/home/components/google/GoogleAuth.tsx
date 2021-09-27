@@ -125,6 +125,10 @@ const GoogleAuth: React.FC = () => {
           client.resetStore();
 
           localStorage.setItem("user", JSON.stringify(signinUser));
+          localStorage.setItem(
+            "userId",
+            JSON.stringify({ id: signinUser["id"] })
+          );
           setIsUserCreated(Object.keys(signinUser).length > 0);
 
           history.push("/main");
