@@ -205,7 +205,7 @@ const GoogleAuth: React.FC = () => {
   ]);
 
   useEffect(() => {
-    if (data?.getUserType?.userType) {
+    if (data?.getUserType?.userType && userEmail) {
       signinUser({
         variables: {
           [`signin${capitalizeFirst(
