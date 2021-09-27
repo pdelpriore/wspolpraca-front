@@ -13,7 +13,7 @@ import {
   setUserPersistence,
   userSignout,
 } from "../../../../config/firebase/Firebase";
-import { useMutation } from "@apollo/client";
+import { useMutation, useLazyQuery } from "@apollo/client";
 import { client } from "../../../../config/apollo/client/ApolloClient";
 import {
   AdditionalUserInfo,
@@ -29,6 +29,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import getSignupMutation from "../signup/method/getSignupMutation";
 import getSigninMutation from "../signin/method/getSigninMutation";
+import { GET_USER_TYPE } from "./query/GetUserType";
 import { IUser } from "../shared/types/user/UserType";
 import {
   TUserSignin,
@@ -90,6 +91,15 @@ const GoogleAuth: React.FC = () => {
 
   const signinMutation = getSigninMutation(capitalizeFirst(userType));
   const signupMutation = getSignupMutation(capitalizeFirst(userType));
+
+  const [getUserType, { loading, error, data }] = useLazyQuery(GET_USER_TYPE, {
+    context: {
+      headers: {
+        "x-auth": tokenId,
+        "Content-Type": "application/json",
+      },
+    },
+  });
 
   const [signinUser, { ["loading"]: signinLoading, ["error"]: signinError }] =
     useMutation<
@@ -182,24 +192,7 @@ const GoogleAuth: React.FC = () => {
       } else if (isNewUser) {
         showUserTypeSnackbar({ val: true });
       } else {
-        // TO DO :
-        // get userType from backend by email
-        // set in useState
-        // and pass to signinUser below
-        // change if logic here
-
-        // move signinUser to the separate useEffect
-        // if fetchedUserType
-        // call signinUser
-        signinUser({
-          variables: {
-            [`signin${capitalizeFirst(
-              userType
-            )}Data` as keyof ISigninVariables]: {
-              email: email as string,
-            },
-          },
-        });
+        getUserType({ variables: { getUserTypeEmail: email } });
       }
     }
   }, [
@@ -210,6 +203,23 @@ const GoogleAuth: React.FC = () => {
     signupUser,
     showUserTypeSnackbar,
   ]);
+
+  useEffect(() => {
+    if (data?.getUserType?.userType) {
+      signinUser({
+        variables: {
+          [`signin${capitalizeFirst(
+            data.getUserType.userType
+          )}Data` as keyof ISigninVariables]: {
+            email: userEmail,
+          },
+        },
+      });
+    }
+  }, [data, userEmail, signinUser]);
+
+  console.log(userEmail);
+  console.log(data?.getUserType?.userType);
 
   useEffect(() => {
     setUserDataLoader(signupLoading);
