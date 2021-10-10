@@ -167,7 +167,7 @@ const GoogleAuth: React.FC = () => {
       },
     });
 
-  useImperativeHandle(ref, () => handleRef!, [handleRef]);
+  useImperativeHandle(ref, () => handleRef);
 
   useEffect(() => {
     if (Object.keys(googleUserCredentials).length > 0) {
