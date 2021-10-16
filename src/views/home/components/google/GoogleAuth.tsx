@@ -228,8 +228,7 @@ const GoogleAuth: React.FC = () => {
   }, [data, userEmail, signinUser]);
 
   useEffect(() => {
-    setUserDataLoader(signupLoading);
-    setUserDataLoader(signinLoading);
+    setUserDataLoader(signupLoading || signinLoading);
   }, [signupLoading, signinLoading, setUserDataLoader]);
 
   return isLoading || loading ? (
