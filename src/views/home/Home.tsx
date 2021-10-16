@@ -25,10 +25,10 @@ const Home: React.FC = () => {
       <div className="home__logo">logo</div>
       <div className="home__trail">
         <Trail>
-          <span>Lorem</span>
-          <span>Ipsum</span>
-          <span>Dolor</span>
-          <span>Sit</span>
+          <span>Nawiąż</span>
+          <span>Współpracę</span>
+          <span>Youtuber</span>
+          <span>Marka</span>
         </Trail>
       </div>
       <div className="home__form">
