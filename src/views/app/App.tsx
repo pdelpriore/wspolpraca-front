@@ -9,19 +9,28 @@ import {
 import { ApolloProvider } from "@apollo/client";
 import { client } from "../../config/apollo/client/ApolloClient";
 import { useReactiveVar } from "@apollo/client";
-import getUser from "../../shared/getUser";
+import getUserId, { IReactiveUserId } from "../../shared/getUserId";
 import Home from "../home/Home";
 import Main from "../main/Main";
 import "./App.css";
 
 const App: React.FC = () => {
-  const user = useReactiveVar(getUser);
+  const { userId } =
+    useReactiveVar<IReactiveUserId>(getUserId) || ({} as IReactiveUserId);
   return (
     <ApolloProvider client={client}>
       <Router>
         <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/main" exact component={Main} />
+          {userId && <Route path="/" exact component={Home} /> ? (
+            <Redirect from="/" to="/main" exact />
+          ) : (
+            <Route path="/" exact component={Home} />
+          )}
+          {userId ? (
+            <Route path="/main" exact component={Main} />
+          ) : (
+            <Redirect to="/" exact />
+          )}
         </Switch>
       </Router>
     </ApolloProvider>

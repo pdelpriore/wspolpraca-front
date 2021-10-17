@@ -4,7 +4,6 @@ import React, {
   useContext,
   useImperativeHandle,
 } from "react";
-import { useHistory } from "react-router-dom";
 import {
   auth,
   googleProvider,
@@ -29,6 +28,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import getSignupMutation from "../signup/method/getSignupMutation";
 import getSigninMutation from "../signin/method/getSigninMutation";
+import getUserId from "../../../../shared/getUserId";
 import { GET_USER_TYPE } from "./query/GetUserType";
 import { IUser } from "../shared/types/user/UserType";
 import {
@@ -61,8 +61,6 @@ const GoogleAuth: React.FC = () => {
     setUserDataLoader,
     setIsUserCreated,
   } = useContext(UserTypeContext);
-
-  const history = useHistory();
 
   const signGoogleUser = async () => {
     try {
@@ -127,11 +125,12 @@ const GoogleAuth: React.FC = () => {
           localStorage.setItem("user", JSON.stringify(signinUser));
           localStorage.setItem(
             "userId",
-            JSON.stringify({ id: signinUser["id"] })
+            JSON.stringify({ userId: signinUser["id"] })
           );
+
           setIsUserCreated(Object.keys(signinUser).length > 0);
 
-          history.push("/main");
+          getUserId(JSON.parse(localStorage.getItem("userId") as string));
         }
       },
     });
