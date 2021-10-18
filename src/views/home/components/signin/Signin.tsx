@@ -90,7 +90,7 @@ const Signin: React.FC = () => {
       setTokenId(idToken);
       setUserEmail(email as string);
 
-      getUserType({ variables: { getUserTypeEmail: input.useremail } });
+      getUserType({ variables: { getUserTypeEmail: email as string } });
       setLoader(false);
     } catch (err) {
       if (err instanceof FirebaseError) {
