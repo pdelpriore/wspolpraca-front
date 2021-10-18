@@ -30,17 +30,6 @@ import getSignupMutation from "../signup/method/getSignupMutation";
 import getSigninMutation from "../signin/method/getSigninMutation";
 import getUserId from "../../../../shared/getUserId";
 import { GET_USER_TYPE } from "./query/GetUserType";
-import { IUser } from "../shared/types/user/UserType";
-import {
-  TUserSignin,
-  IUserSigninParams,
-  ISigninVariables,
-} from "../signin/types/SigninTypes";
-import {
-  TUserSignup,
-  IUserSignupParams,
-  ISignupVariables,
-} from "../signup/types/SignupTypes";
 import { capitalizeFirst } from "../../../../shared/capitalize";
 
 const GoogleAuth: React.FC = () => {
@@ -102,11 +91,7 @@ const GoogleAuth: React.FC = () => {
   const signupMutation = getSignupMutation(capitalizeFirst(userType));
 
   const [signinUser, { ["loading"]: signinLoading, ["error"]: signinError }] =
-    useMutation<
-      { signinYoutuber: IUser } | { signinBrand: IUser },
-      | { signinYoutuberData?: IUserSigninParams }
-      | { signinBrandData?: IUserSigninParams }
-    >(signinMutation, {
+    useMutation(signinMutation, {
       context: {
         headers: {
           "x-auth": tokenId,
@@ -114,9 +99,8 @@ const GoogleAuth: React.FC = () => {
         },
       },
       onCompleted: async ({
-        [`signin${capitalizeFirst(
-          userType || data?.getUserType.userType
-        )}` as keyof TUserSignin]: signinUser,
+        [`signin${capitalizeFirst(userType || data?.getUserType.userType)}`]:
+          signinUser,
       }) => {
         if (signinUser) {
           await userSignout(auth);
@@ -136,28 +120,20 @@ const GoogleAuth: React.FC = () => {
     });
 
   const [signupUser, { ["loading"]: signupLoading, ["error"]: signupError }] =
-    useMutation<
-      { signupYoutuber: IUser } | { signupBrand: IUser },
-      | { signupYoutuberData?: IUserSignupParams }
-      | { signupBrandData?: IUserSignupParams }
-    >(signupMutation, {
+    useMutation(signupMutation, {
       context: {
         headers: {
           "x-auth": tokenId,
           "Content-Type": "application/json",
         },
       },
-      onCompleted: ({
-        [`signup${capitalizeFirst(userType)}` as keyof TUserSignup]: signupUser,
-      }) => {
+      onCompleted: ({ [`signup${capitalizeFirst(userType)}`]: signupUser }) => {
         if (signupUser) {
           setGoogleUserCredentials({} as UserCredential);
           setHandleRef({} as IGoogleAuth);
           signinUser({
             variables: {
-              [`signin${capitalizeFirst(
-                userType
-              )}Data` as keyof ISigninVariables]: {
+              [`signin${capitalizeFirst(userType)}Data`]: {
                 email: userEmail,
               },
             },
@@ -185,9 +161,7 @@ const GoogleAuth: React.FC = () => {
           signGoogleUserCallback: () =>
             signupUser({
               variables: {
-                [`signup${capitalizeFirst(
-                  userType
-                )}Data` as keyof ISignupVariables]: {
+                [`signup${capitalizeFirst(userType)}Data`]: {
                   userType: userType as string,
                   name: displayName as string,
                   email: email as string,
@@ -216,9 +190,7 @@ const GoogleAuth: React.FC = () => {
     if (data?.getUserType.userType && userEmail) {
       signinUser({
         variables: {
-          [`signin${capitalizeFirst(
-            data.getUserType.userType
-          )}Data` as keyof ISigninVariables]: {
+          [`signin${capitalizeFirst(data.getUserType.userType)}Data`]: {
             email: userEmail,
           },
         },

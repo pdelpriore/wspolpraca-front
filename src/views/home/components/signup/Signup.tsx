@@ -16,12 +16,6 @@ import {
 import { User } from "@firebase/auth";
 import { FirebaseError } from "@firebase/util";
 import { useMutation } from "@apollo/client";
-import { IUser } from "../shared/types/user/UserType";
-import {
-  ISignupVariables,
-  IUserSignupParams,
-  TUserSignup,
-} from "./types/SignupTypes";
 import getSignupMutation from "./method/getSignupMutation";
 import { capitalizeFirst } from "../../../../shared/capitalize";
 import showMessage from "../../../../shared/showMessage";
@@ -43,11 +37,7 @@ const Signup: React.FC = () => {
 
   const signupMutation = getSignupMutation(capitalizeFirst(input.usertype));
 
-  const [signupUser, { loading, error }] = useMutation<
-    { signupYoutuber: IUser } | { signupBrand: IUser },
-    | { signupYoutuberData?: IUserSignupParams }
-    | { signupBrandData?: IUserSignupParams }
-  >(signupMutation, {
+  const [signupUser, { loading, error }] = useMutation(signupMutation, {
     context: {
       headers: {
         "x-auth": tokenId,
@@ -55,8 +45,7 @@ const Signup: React.FC = () => {
       },
     },
     onCompleted: async ({
-      [`signup${capitalizeFirst(input.usertype)}` as keyof TUserSignup]:
-        signupUser,
+      [`signup${capitalizeFirst(input.usertype)}`]: signupUser,
     }) => {
       if (signupUser) {
         try {
@@ -90,9 +79,7 @@ const Signup: React.FC = () => {
 
       signupUser({
         variables: {
-          [`signup${capitalizeFirst(
-            input.usertype
-          )}Data` as keyof ISignupVariables]: {
+          [`signup${capitalizeFirst(input.usertype)}Data`]: {
             userType: input.usertype,
             name: input.username,
             email: input.useremail,

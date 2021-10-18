@@ -12,7 +12,6 @@ const withSnackbar = (Component: React.FC) => () => {
 
   const handleHideToast = () => {
     setToastVisibility({ val: false });
-    showMessage({});
   };
 
   useEffect(() => {

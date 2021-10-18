@@ -32,7 +32,6 @@ const Home: React.FC = () => {
         </Trail>
       </div>
       <div className="home__form">
-        <GoogleAuth />
         {isFormVisible.signupForm ? (
           <ShowingFormContext.Provider
             value={{
@@ -42,13 +41,16 @@ const Home: React.FC = () => {
             <Signup />
           </ShowingFormContext.Provider>
         ) : isFormVisible.signinForm ? (
-          <ShowingFormContext.Provider
-            value={{
-              showForm: setFormVisibility,
-            }}
-          >
-            <Signin />
-          </ShowingFormContext.Provider>
+          <>
+            <GoogleAuth />
+            <ShowingFormContext.Provider
+              value={{
+                showForm: setFormVisibility,
+              }}
+            >
+              <Signin />
+            </ShowingFormContext.Provider>
+          </>
         ) : (
           <ShowingFormContext.Provider
             value={{
