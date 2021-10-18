@@ -76,14 +76,15 @@ const GoogleAuth: React.FC = () => {
     signGoogleUser();
   };
 
-  const [getUserType, { loading, error, data }] = useLazyQuery(GET_USER_TYPE, {
-    context: {
-      headers: {
-        "x-auth": tokenId,
-        "Content-Type": "application/json",
+  const [getUserType, { ["loading"]: userTypeLoading, error, data }] =
+    useLazyQuery(GET_USER_TYPE, {
+      context: {
+        headers: {
+          "x-auth": tokenId,
+          "Content-Type": "application/json",
+        },
       },
-    },
-  });
+    });
 
   const signinMutation = getSigninMutation(
     capitalizeFirst(userType || data?.getUserType.userType)
@@ -202,7 +203,7 @@ const GoogleAuth: React.FC = () => {
     setUserDataLoader(signupLoading || signinLoading);
   }, [signupLoading, signinLoading, setUserDataLoader]);
 
-  return isLoading || loading ? (
+  return isLoading || userTypeLoading ? (
     <Spinner animation="border" size="sm" />
   ) : (
     <Button
