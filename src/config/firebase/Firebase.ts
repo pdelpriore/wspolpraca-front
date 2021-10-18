@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import {
   getAuth,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   sendEmailVerification,
   sendPasswordResetEmail,
   GoogleAuthProvider,
@@ -22,6 +23,7 @@ const app = initializeApp({
 
 export const auth = getAuth(app);
 export const createUser = createUserWithEmailAndPassword;
+export const loginUser = signInWithEmailAndPassword;
 export const sendVerificationEmail = sendEmailVerification;
 export const resetPassword = sendPasswordResetEmail;
 export const googleProvider = new GoogleAuthProvider();

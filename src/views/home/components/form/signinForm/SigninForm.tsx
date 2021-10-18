@@ -12,6 +12,7 @@ interface ISigninFormProps {
   onChangeInput: TOnChangeInput;
   onSubmitForm: TOnSubmitForm;
   isSubmitButtonDisabled: boolean;
+  isLoading: boolean;
 }
 
 const SigninForm: React.FC<ISigninFormProps> = ({
@@ -19,6 +20,7 @@ const SigninForm: React.FC<ISigninFormProps> = ({
   onChangeInput,
   onSubmitForm,
   isSubmitButtonDisabled,
+  isLoading,
 }) => {
   const { showForm } = useContext(ShowingFormContext);
 
@@ -69,13 +71,17 @@ const SigninForm: React.FC<ISigninFormProps> = ({
       >
         zapomniałeś hasła ?
       </span>
-      <Button
-        type="submit"
-        className="form_btn"
-        disabled={isSubmitButtonDisabled}
-      >
-        Zaloguj się
-      </Button>
+      {isLoading ? (
+        <Spinner animation="border" size="sm" />
+      ) : (
+        <Button
+          type="submit"
+          className="form_btn"
+          disabled={isSubmitButtonDisabled}
+        >
+          Zaloguj się
+        </Button>
+      )}
     </Form>
   );
 };
